@@ -48,6 +48,19 @@
   #controles button:hover { background: #1558b0; }
   #controles button:disabled { background: #99b8e6; cursor: default; }
 
+  #origenes-rapidos { display: flex; gap: 0.5rem; margin: -0.75rem 0 1.5rem; }
+  #origenes-rapidos button {
+    background: #eef3fc;
+    color: #1a73e8;
+    border: 1px solid #cddcf7;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #origenes-rapidos button:hover { background: #dce8fb; }
+
   #estado { color: #888; font-style: italic; margin: 1rem 0; }
 
   #resultados {
@@ -91,6 +104,12 @@
     <select id="mes"></select>
   </div>
   <button id="buscar">Buscar destinos</button>
+</div>
+
+<div id="origenes-rapidos">
+  <button type="button" data-origen="Santander (SDR)">Santander</button>
+  <button type="button" data-origen="Bilbao (BIO)">Bilbao</button>
+  <button type="button" data-origen="Madrid (MAD)">Madrid</button>
 </div>
 
 <div id="estado"></div>
@@ -230,7 +249,17 @@
     }
   }
 
+  function initOrigenesRapidos() {
+    document.querySelectorAll('#origenes-rapidos button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        origenInput.value = btn.dataset.origen;
+        buscar();
+      });
+    });
+  }
+
   initMeses();
+  initOrigenesRapidos();
   getAirportsCached().then(initAutocompletadoOrigen);
   buscarBtn.addEventListener('click', buscar);
 </script>
