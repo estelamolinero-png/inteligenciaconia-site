@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorar destinos baratos</title>
+<meta name="description" content="Descubre qué destinos son más baratos desde Santander o Bilbao en un mes concreto.">
+
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+    line-height: 1.5;
+  }
+  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  p.subtitle { color: #666; margin-top: 0; }
+  nav.volver { margin-bottom: 1.5rem; }
+  nav.volver a { color: #1a73e8; text-decoration: none; font-size: 0.9rem; }
+
+  #controles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: end;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+  }
+  #controles label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }
+  #controles select, #controles button {
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  #controles button {
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #controles button:hover { background: #1558b0; }
+  #controles button:disabled { background: #99b8e6; cursor: default; }
+
+  #estado { color: #888; font-style: italic; margin: 1rem 0; }
+
+  #resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .destino {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .destino:hover { border-color: #1a73e8; }
+  .destino .ciudad { font-weight: 600; margin-bottom: 0.25rem; }
+  .destino .codigo { color: #888; font-size: 0.85rem; }
+  .destino .precio { font-size: 1.3rem; font-weight: 700; color: #1a73e8; margin-top: 0.5rem; }
+  .destino .fecha { font-size: 0.8rem; color: #888; margin-top: 0.25rem; }
+
+  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
+</style>
+</head>
+<body>
+
+<nav class="volver"><a href="index.html">← Volver</a></nav>
+
+<h1>¿A dónde es barato volar?</h1>
+<p class="subtitle">Elige origen y mes: te mostramos el precio más barato encontrado a cada destino.</p>
+
+<div id="controles">
+  <div>
+    <label for="origen">Desde</label>
+    <select id="origen">
+      <option value="SDR">Santander</option>
+      <option value="BIO">Bilbao</option>
+    </select>
+  </div>
+  <div>
+    <label for="mes">Mes</label>
+    <select id="mes"></select>
+  </div>
+  <button id="buscar">Buscar destinos</button>
+</div>
+
+<div id="estado"></div>
+<div id="resultados"></div>
+
+<footer>
+  Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+  sin coste adicional para ti.
+</footer>
+
+<script>
+  const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
+  const AIRPORTS_CACHE_KEY = 'airport_names_cache_v1';
+  const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
+
+  const mesSelect = document.getElementById('mes');
+  const origenSelect = document.getElementById('origen');
+  const buscarBtn = document.getElementById('buscar');
+  const estadoDiv = document.getElementById('estado');
+  const resultadosDiv = document.getElementById('resultados');
+
+  const NOMBRES_MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  function initMeses() {
+    const hoy = new Date();
+    for (let i = 0; i < 8; i++) {
+      const d = new Date(hoy.getFullYear(), hoy.getMonth() + i, 1);
+      const yyyyMm = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const opt = document.createElement('option');
+      opt.value = yyyyMm;
+      opt.textContent = `${NOMBRES_MES[d.getMonth()]} ${d.getFullYear()}`;
+      mesSelect.appendChild(opt);
+    }
+  }
+
+  async function getAirportNames() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
+      if (cached && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.names;
+    } catch (e) { /* cache invalida, seguimos y la regeneramos */ }
+
+    const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
+    const raw = await r.json();
+    const names = {};
+    for (const a of raw) if (a.code) names[a.code] = a.name || a.code;
+    try { localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), names })); } catch (e) { /* localStorage lleno, no pasa nada */ }
+    return names;
+  }
+
+  function fmtFecha(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  async function buscar() {
+    const origin = origenSelect.value;
+    const month = mesSelect.value;
+    buscarBtn.disabled = true;
+    resultadosDiv.innerHTML = '';
+    estadoDiv.textContent = 'Buscando destinos...';
+
+    try {
+      const [namesResult, apiResult] = await Promise.allSettled([
+        getAirportNames(),
+        fetch(`${WORKER_URL}?origin=${origin}&month=${month}`).then(r => r.json()),
+      ]);
+
+      const names = namesResult.status === 'fulfilled' ? namesResult.value : {};
+      if (apiResult.status !== 'fulfilled') throw new Error('No se pudo conectar con el buscador.');
+      const payload = apiResult.value;
+      if (payload.error) throw new Error(payload.error);
+
+      const resultados = payload.results || [];
+      if (resultados.length === 0) {
+        estadoDiv.textContent = 'No se encontraron vuelos para esa combinación. Prueba otro mes.';
+        return;
+      }
+
+      estadoDiv.textContent = `${resultados.length} destino(s) encontrado(s), ordenados de más barato a más caro:`;
+      for (const r of resultados) {
+        const a = document.createElement('a');
+        a.className = 'destino';
+        a.href = 'https://vuelos.inteligenciaconia.com';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `
+          <div class="ciudad">${names[r.destination] || r.destination}</div>
+          <div class="codigo">${r.destination}</div>
+          <div class="precio">${Math.round(r.price)} €</div>
+          <div class="fecha">${fmtFecha(r.departure_at)}</div>
+        `;
+        resultadosDiv.appendChild(a);
+      }
+    } catch (err) {
+      estadoDiv.textContent = `Ha ocurrido un error: ${err.message}`;
+    } finally {
+      buscarBtn.disabled = false;
+    }
+  }
+
+  initMeses();
+  buscarBtn.addEventListener('click', buscar);
+</script>
+
+</body>
+</html>
