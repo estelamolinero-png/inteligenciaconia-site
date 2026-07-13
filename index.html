@@ -22,8 +22,18 @@
     padding: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 12px;
+    text-align: center;
   }
-  #buscador p { color: #888; font-style: italic; }
+  #buscador a.boton {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: #1a73e8;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  #buscador a.boton:hover { background: #1558b0; text-decoration: none; }
   footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
 </style>
 </head>
@@ -33,9 +43,8 @@
 <p class="subtitle">Busca y compara vuelos para tu próximo viaje.</p>
 
 <div id="buscador">
-  <!-- TODO: pegar aqui el snippet del widget "White Label Web" (tipo Widget) de Travelpayouts,
-       generado desde tu cuenta -> Herramientas -> White Label. -->
-  <p>Buscador de vuelos — próximamente.</p>
+  <p>Compara y reserva tu vuelo:</p>
+  <a class="boton" href="https://vuelos.inteligenciaconia.com">Buscar vuelos →</a>
 </div>
 
 <footer>
