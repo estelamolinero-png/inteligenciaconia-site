@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Explorar destinos baratos</title>
-<meta name="description" content="Descubre qué destinos son más baratos desde Santander o Bilbao en un mes concreto.">
+<meta name="description" content="Descubre qué destinos son más baratos desde cualquier origen en un mes concreto.">
 
 <style>
   :root { color-scheme: light dark; }
@@ -31,12 +31,13 @@
     border-radius: 12px;
   }
   #controles label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }
-  #controles select, #controles button {
+  #controles select, #controles input, #controles button {
     padding: 0.6rem 0.9rem;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 1rem;
   }
+  #controles input { width: 220px; }
   #controles button {
     background: #1a73e8;
     color: #fff;
@@ -77,15 +78,13 @@
 <nav class="volver"><a href="index.html">← Volver</a></nav>
 
 <h1>¿A dónde es barato volar?</h1>
-<p class="subtitle">Elige origen y mes: te mostramos el precio más barato encontrado a cada destino.</p>
+<p class="subtitle">Escribe cualquier ciudad de origen y elige un mes: te mostramos el precio más barato encontrado a cada destino.</p>
 
 <div id="controles">
   <div>
     <label for="origen">Desde</label>
-    <select id="origen">
-      <option value="SDR">Santander</option>
-      <option value="BIO">Bilbao</option>
-    </select>
+    <input id="origen" list="origenes-list" autocomplete="off" placeholder="Ciudad o aeropuerto" value="Santander (SDR)">
+    <datalist id="origenes-list"></datalist>
   </div>
   <div>
     <label for="mes">Mes</label>
@@ -109,10 +108,16 @@
   const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
   const mesSelect = document.getElementById('mes');
-  const origenSelect = document.getElementById('origen');
+  const origenInput = document.getElementById('origen');
   const buscarBtn = document.getElementById('buscar');
   const estadoDiv = document.getElementById('estado');
   const resultadosDiv = document.getElementById('resultados');
+
+  let airportsCache = null;
+  async function getAirportsCached() {
+    if (!airportsCache) airportsCache = await getAirports();
+    return airportsCache;
+  }
 
   const NOMBRES_MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
@@ -128,18 +133,46 @@
     }
   }
 
-  async function getAirportNames() {
+  async function getAirports() {
     try {
       const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
-      if (cached && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.names;
+      if (cached && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.airports;
     } catch (e) { /* cache invalida, seguimos y la regeneramos */ }
 
     const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
     const raw = await r.json();
-    const names = {};
-    for (const a of raw) if (a.code) names[a.code] = a.name || a.code;
-    try { localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), names })); } catch (e) { /* localStorage lleno, no pasa nada */ }
-    return names;
+    const airports = raw.filter((a) => a.code && a.flightable).map((a) => ({ code: a.code, name: a.name || a.code }));
+    try { localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), airports })); } catch (e) { /* localStorage lleno, no pasa nada */ }
+    return airports;
+  }
+
+  function etiquetaAeropuerto(a) {
+    return `${a.name} (${a.code})`;
+  }
+
+  function resolverOrigen(texto, airports) {
+    const m = texto.match(/\(([A-Z]{3})\)\s*$/);
+    if (m) return m[1];
+    const codigo = texto.trim().toUpperCase();
+    if (/^[A-Z]{3}$/.test(codigo) && airports.some((a) => a.code === codigo)) return codigo;
+    return null;
+  }
+
+  function initAutocompletadoOrigen(airports) {
+    const datalist = document.getElementById('origenes-list');
+    origenInput.addEventListener('input', () => {
+      const q = origenInput.value.trim().toLowerCase();
+      datalist.innerHTML = '';
+      if (q.length < 2) return;
+      const coincidencias = airports
+        .filter((a) => a.name.toLowerCase().includes(q) || a.code.toLowerCase() === q)
+        .slice(0, 20);
+      for (const a of coincidencias) {
+        const opt = document.createElement('option');
+        opt.value = etiquetaAeropuerto(a);
+        datalist.appendChild(opt);
+      }
+    });
   }
 
   function fmtFecha(iso) {
@@ -150,21 +183,23 @@
   }
 
   async function buscar() {
-    const origin = origenSelect.value;
     const month = mesSelect.value;
     buscarBtn.disabled = true;
     resultadosDiv.innerHTML = '';
     estadoDiv.textContent = 'Buscando destinos...';
 
     try {
-      const [namesResult, apiResult] = await Promise.allSettled([
-        getAirportNames(),
-        fetch(`${WORKER_URL}?origin=${origin}&month=${month}`).then(r => r.json()),
-      ]);
+      const airports = await getAirportsCached();
+      const origin = resolverOrigen(origenInput.value, airports);
+      if (!origin) {
+        estadoDiv.textContent = 'No reconozco ese origen. Elige una ciudad de la lista mientras escribes.';
+        return;
+      }
 
-      const names = namesResult.status === 'fulfilled' ? namesResult.value : {};
-      if (apiResult.status !== 'fulfilled') throw new Error('No se pudo conectar con el buscador.');
-      const payload = apiResult.value;
+      const names = {};
+      for (const a of airports) names[a.code] = a.name;
+
+      const payload = await fetch(`${WORKER_URL}?origin=${origin}&month=${month}`).then((r) => r.json());
       if (payload.error) throw new Error(payload.error);
 
       const resultados = payload.results || [];
@@ -196,6 +231,7 @@
   }
 
   initMeses();
+  getAirportsCached().then(initAutocompletadoOrigen);
   buscarBtn.addEventListener('click', buscar);
 </script>
 

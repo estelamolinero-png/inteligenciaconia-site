@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Encuentra tu vuelo</title>
-<meta name="description" content="Busca y reserva vuelos.">
+<meta name="description" content="Busca y reserva vuelos, actividades y coches de alquiler.">
 
 <style>
   :root { color-scheme: light dark; }
@@ -16,15 +16,16 @@
     line-height: 1.5;
   }
   h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; }
   p.subtitle { color: #666; margin-top: 0; }
-  #buscador {
-    margin: 2rem 0;
+  .tarjeta {
+    margin: 1rem 0;
     padding: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 12px;
     text-align: center;
   }
-  #buscador a.boton {
+  .tarjeta a.boton {
     display: inline-block;
     margin-top: 0.75rem;
     padding: 0.75rem 1.5rem;
@@ -33,24 +34,37 @@
     border-radius: 8px;
     font-weight: 600;
   }
-  #buscador a.boton:hover { background: #1558b0; text-decoration: none; }
+  .tarjeta a.boton:hover { background: #1558b0; text-decoration: none; }
+  .tarjeta.pendiente { color: #888; font-style: italic; }
   footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
 </style>
 </head>
 <body>
 
 <h1>Encuentra tu vuelo</h1>
-<p class="subtitle">Busca y compara vuelos para tu próximo viaje.</p>
+<p class="subtitle">Busca y compara vuelos, actividades y coches de alquiler para tu próximo viaje.</p>
 
-<div id="buscador">
+<div class="tarjeta">
   <p>Compara y reserva tu vuelo:</p>
   <a class="boton" href="https://vuelos.inteligenciaconia.com">Buscar vuelos →</a>
 </div>
 
-<div id="buscador">
+<div class="tarjeta">
   <p>¿No sabes dónde ir? Descubre qué destinos son más baratos este mes:</p>
   <a class="boton" href="explorar.html">Explorar destinos →</a>
 </div>
+
+<h2>Alojamiento</h2>
+<div class="tarjeta pendiente">
+  <p>Estamos activando Booking.com y Trip.com para poder ofrecer también alojamiento — vuelve pronto.</p>
+</div>
+
+<h2>Actividades y experiencias</h2>
+<div id="klook-widget"></div>
+<script async src="https://tpwidg.com/content?currency=EUR&trs=549905&shmarker=750513&locale=es&city_id=108&category=2&amount=3&powered_by=true&campaign_id=137"></script>
+
+<h2>Coches de alquiler</h2>
+<script src="https://tp.media/content?campaign_id=222&promo_id=8813&shmarker=750513&trs=549905" charset="utf-8"></script>
 
 <footer>
   Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través
