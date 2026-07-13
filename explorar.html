@@ -104,7 +104,7 @@
 
 <script>
   const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
-  const AIRPORTS_CACHE_KEY = 'airport_names_cache_v1';
+  const AIRPORTS_CACHE_KEY = 'airports_cache_v2';
   const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
   const mesSelect = document.getElementById('mes');
@@ -136,7 +136,7 @@
   async function getAirports() {
     try {
       const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
-      if (cached && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.airports;
+      if (cached && Array.isArray(cached.airports) && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.airports;
     } catch (e) { /* cache invalida, seguimos y la regeneramos */ }
 
     const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
