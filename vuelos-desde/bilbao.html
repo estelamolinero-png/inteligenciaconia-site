@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vuelos baratos desde Bilbao (BIO) — precios en directo</title>
+<meta name="description" content="Vuelos baratos desde el aeropuerto de Bilbao (BIO) con precios consultados en directo. Rutas, aerolíneas y preguntas frecuentes sobre volar desde Bilbao.">
+<link rel="canonical" href="https://inteligenciaconia.com/vuelos-desde/bilbao.html">
+<meta property="og:title" content="Vuelos baratos desde Bilbao (BIO) — precios en directo">
+<meta property="og:description" content="Precios en directo de vuelos desde el aeropuerto de Bilbao, consultados en tiempo real.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inteligenciaconia.com/vuelos-desde/bilbao.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://inteligenciaconia.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Vuelos baratos desde Bilbao", "item": "https://inteligenciaconia.com/vuelos-desde/bilbao.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Los precios de esta página son reales o son una estimación?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Son precios en directo. Cada vez que cargas esta página, consultamos la API de Travelpayouts para la ruta desde Bilbao, así que ves tarifas actualizadas en ese momento y no una cifra genérica o desactualizada de hace semanas." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué aerolíneas vuelan desde el aeropuerto de Bilbao?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Vueling es la aerolínea base del aeropuerto de Bilbao, con la oferta de rutas más amplia. También operan compañías como Iberia, Ryanair, easyJet, Air Europa y aerolíneas de bandera europeas, lo que da acceso a distintos destinos, horarios y rangos de precio para una misma ruta." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuándo es más barato volar desde Bilbao?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Como norma general, fuera de verano, Semana Santa y Navidad hay más disponibilidad de tarifas bajas, y volar entre semana suele salir más económico que en fin de semana. Aun así, el precio varía cada día, así que conviene comprobarlo en directo antes de decidir la fecha." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Con cuánta antelación debo reservar un vuelo barato desde Bilbao?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No hay una regla fija: depende de la ruta y la aerolínea. En general, reservar con varias semanas de antelación da más margen para encontrar tarifas bajas que dejarlo para los últimos días, cuando suele quedar menos disponibilidad económica." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo llego al aeropuerto de Bilbao desde el centro de la ciudad?",
+      "acceptedAnswer": { "@type": "Answer", "text": "El aeropuerto está a pocos kilómetros del centro de Bilbao y se puede llegar en autobús directo (Bizkaibus), taxi o coche. Es recomendable calcular el trayecto con margen, sobre todo en vuelos con salida muy temprana." }
+    }
+  ]
+}
+</script>
+
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+    line-height: 1.6;
+  }
+  nav.migas { font-size: 0.85rem; color: #888; margin-bottom: 1.5rem; }
+  nav.migas a { color: #1a73e8; text-decoration: none; }
+  h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.15rem; margin: 2rem 0 0.75rem; }
+  h3 { font-size: 1rem; margin: 1.5rem 0 0.4rem; }
+  #vivo {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+  }
+  #vivo-estado { color: #888; font-style: italic; }
+  #vivo-resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .destino {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    font-size: 0.9rem;
+  }
+  .destino:hover { border-color: #1a73e8; }
+  .destino .ciudad { font-weight: 600; }
+  .destino .precio { font-size: 1.1rem; font-weight: 700; color: #1a73e8; margin-top: 0.25rem; }
+  .cta { margin-top: 1rem; font-size: 0.9rem; }
+  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
+</style>
+</head>
+<body>
+
+<nav class="migas"><a href="../index.html">Inicio</a> → Vuelos baratos desde Bilbao</nav>
+
+<h1>Vuelos baratos desde Bilbao (BIO)</h1>
+
+<p>Esta página muestra vuelos baratos que salen del aeropuerto de Bilbao (BIO) con precios en directo, consultados en tiempo real mediante la API de Travelpayouts en cada búsqueda. No son estimaciones genéricas ni tarifas de referencia: reflejan la disponibilidad y el precio real del momento en que entras. Consulta rutas y aerolíneas actualizadas antes de reservar tu vuelo.</p>
+
+<div id="vivo">
+  <div id="vivo-estado">Cargando precios en directo…</div>
+  <div id="vivo-resultados"></div>
+  <p class="cta"><a href="../explorar.html">Elegir otro mes o comparar desde otra ciudad →</a></p>
+</div>
+
+<h2>Volar desde el aeropuerto de Bilbao</h2>
+
+<p>El aeropuerto de Bilbao, en Loiu, es el aeropuerto con la red de conexiones más amplia del norte de España. Vueling opera como aerolínea base, con una oferta estable de rutas hacia ciudades españolas y europeas, y conviven otras compañías como Iberia, Ryanair, easyJet, Air Europa y varias aerolíneas de bandera europeas, lo que amplía el catálogo de destinos y las opciones de horario y precio para una misma ruta.</p>
+
+<p>Para encontrar el vuelo más barato conviene comparar varias fechas cercanas, no solo el día exacto que tienes en mente: mover la salida uno o dos días, o volar entre semana en lugar de fin de semana, suele abrir precios más bajos en las aerolíneas de bajo coste. Revisa también las condiciones de equipaje de mano y facturación antes de reservar, porque en Vueling, Ryanair o easyJet el precio base no siempre incluye maleta grande, y esa diferencia puede encarecer el billete más que elegir otra fecha.</p>
+
+<p>En líneas generales, los meses de temporada baja —fuera de verano, Semana Santa y las semanas de Navidad— ofrecen más disponibilidad de tarifas reducidas, especialmente si reservas con varias semanas de antelación. Aun así, la relación entre fecha de reserva y precio cambia constantemente según la ruta y la aerolínea, por lo que la forma más fiable de saber si un vuelo está barato ahora es comprobar el precio en directo, no guiarte por reglas generales.</p>
+
+<h2>Preguntas frecuentes sobre vuelos baratos desde Bilbao</h2>
+
+<h3>¿Los precios de esta página son reales o son una estimación?</h3>
+<p>Son precios en directo. Cada vez que cargas esta página, consultamos la API de Travelpayouts para la ruta desde Bilbao, así que ves tarifas actualizadas en ese momento y no una cifra genérica o desactualizada de hace semanas.</p>
+
+<h3>¿Qué aerolíneas vuelan desde el aeropuerto de Bilbao?</h3>
+<p>Vueling es la aerolínea base del aeropuerto de Bilbao, con la oferta de rutas más amplia. También operan compañías como Iberia, Ryanair, easyJet, Air Europa y aerolíneas de bandera europeas, lo que da acceso a distintos destinos, horarios y rangos de precio para una misma ruta.</p>
+
+<h3>¿Cuándo es más barato volar desde Bilbao?</h3>
+<p>Como norma general, fuera de verano, Semana Santa y Navidad hay más disponibilidad de tarifas bajas, y volar entre semana suele salir más económico que en fin de semana. Aun así, el precio varía cada día, así que conviene comprobarlo en directo antes de decidir la fecha.</p>
+
+<h3>¿Con cuánta antelación debo reservar un vuelo barato desde Bilbao?</h3>
+<p>No hay una regla fija: depende de la ruta y la aerolínea. En general, reservar con varias semanas de antelación da más margen para encontrar tarifas bajas que dejarlo para los últimos días, cuando suele quedar menos disponibilidad económica.</p>
+
+<h3>¿Cómo llego al aeropuerto de Bilbao desde el centro de la ciudad?</h3>
+<p>El aeropuerto está a pocos kilómetros del centro de Bilbao y se puede llegar en autobús directo (Bizkaibus), taxi o coche. Es recomendable calcular el trayecto con margen, sobre todo en vuelos con salida muy temprana.</p>
+
+<footer>
+  Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+  sin coste adicional para ti.
+</footer>
+
+<script>
+  const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
+  const ORIGIN = 'BIO';
+  const AIRPORTS_CACHE_KEY = 'airports_cache_v2';
+  const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+  async function getAirportNames() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
+      if (cached && Array.isArray(cached.airports) && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) {
+        const names = {};
+        for (const a of cached.airports) names[a.code] = a.name;
+        return names;
+      }
+    } catch (e) { /* cache invalida */ }
+    try {
+      const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
+      const raw = await r.json();
+      const airports = raw.filter((a) => a.code && a.flightable).map((a) => ({ code: a.code, name: a.name || a.code }));
+      localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), airports }));
+      const names = {};
+      for (const a of airports) names[a.code] = a.name;
+      return names;
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function mesActual() {
+    const hoy = new Date();
+    return `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}`;
+  }
+
+  async function cargar() {
+    const estadoDiv = document.getElementById('vivo-estado');
+    const resultadosDiv = document.getElementById('vivo-resultados');
+    try {
+      const [names, payload] = await Promise.all([
+        getAirportNames(),
+        fetch(`${WORKER_URL}?origin=${ORIGIN}&month=${mesActual()}`).then((r) => r.json()),
+      ]);
+      const resultados = (payload.results || []).slice(0, 6);
+      if (resultados.length === 0) {
+        estadoDiv.textContent = 'No se encontraron vuelos para este mes. Prueba a explorar otros meses.';
+        return;
+      }
+      estadoDiv.textContent = 'Más baratos encontrados este mes:';
+      for (const r of resultados) {
+        const a = document.createElement('a');
+        a.className = 'destino';
+        a.href = 'https://vuelos.inteligenciaconia.com';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `<div class="ciudad">${names[r.destination] || r.destination}</div><div class="precio">${Math.round(r.price)} €</div>`;
+        resultadosDiv.appendChild(a);
+      }
+    } catch (err) {
+      estadoDiv.textContent = 'No se pudieron cargar los precios en directo ahora mismo.';
+    }
+  }
+
+  cargar();
+</script>
+
+</body>
+</html>

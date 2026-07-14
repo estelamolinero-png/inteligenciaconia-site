@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vuelos baratos desde Santander (SDR) — precios en directo</title>
+<meta name="description" content="Vuelos baratos desde el aeropuerto de Santander (SDR) con precios consultados en directo. Rutas, aerolíneas y preguntas frecuentes sobre volar desde Santander.">
+<link rel="canonical" href="https://inteligenciaconia.com/vuelos-desde/santander.html">
+<meta property="og:title" content="Vuelos baratos desde Santander (SDR) — precios en directo">
+<meta property="og:description" content="Precios en directo de vuelos desde el aeropuerto de Santander, consultados en tiempo real.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inteligenciaconia.com/vuelos-desde/santander.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://inteligenciaconia.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Vuelos baratos desde Santander", "item": "https://inteligenciaconia.com/vuelos-desde/santander.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué aerolíneas vuelan desde el aeropuerto de Santander?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ryanair es, con diferencia, la aerolínea con más presencia en el aeropuerto de Santander y cubre la mayoría de las rutas disponibles. El resto de la oferta se completa con vuelos puntuales o de temporada de otras compañías en rutas concretas, normalmente en menor número que los operados por Ryanair." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿A qué países se puede volar directamente desde Santander?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Las rutas con vuelo directo desde Santander se concentran sobre todo en Reino Unido, Italia y Marruecos, con algunas conexiones adicionales a otros países europeos según la época del año. El mapa de rutas cambia cada temporada, así que la forma más fiable de saber qué está disponible ahora es consultar los vuelos en directo de esta página." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuándo es más barato volar desde Santander?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Los precios suelen bajar en temporada media (mayo, junio, septiembre, octubre) y en vuelos entre semana, frente a julio, agosto, Semana Santa o los puentes, cuando la demanda hacia Reino Unido e Italia sube y las tarifas se encarecen. Reservar con antelación en fechas de mucha demanda ayuda a evitar los precios más altos." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Con cuánta antelación conviene reservar un vuelo barato desde Santander?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No hay una regla fija, porque Ryanair ajusta los precios según la demanda de cada vuelo, no según una fórmula de días de antelación. Como norma práctica, cuanto antes se reserve en rutas populares o fechas de vacaciones, más opciones hay de encontrar los asientos más baratos antes de que se agoten." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Los precios de esta página son reales o son una estimación?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Son datos reales: esta página consulta en directo la API de Travelpayouts en el momento de la visita, no utiliza precios medios ni estimaciones fijas de temporada. Los importes que ves corresponden a tarifas que las aerolíneas tienen publicadas para esa ruta en ese momento concreto." }
+    }
+  ]
+}
+</script>
+
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+    line-height: 1.6;
+  }
+  nav.migas { font-size: 0.85rem; color: #888; margin-bottom: 1.5rem; }
+  nav.migas a { color: #1a73e8; text-decoration: none; }
+  h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.15rem; margin: 2rem 0 0.75rem; }
+  h3 { font-size: 1rem; margin: 1.5rem 0 0.4rem; }
+  #vivo {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+  }
+  #vivo-estado { color: #888; font-style: italic; }
+  #vivo-resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .destino {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    font-size: 0.9rem;
+  }
+  .destino:hover { border-color: #1a73e8; }
+  .destino .ciudad { font-weight: 600; }
+  .destino .precio { font-size: 1.1rem; font-weight: 700; color: #1a73e8; margin-top: 0.25rem; }
+  .cta { margin-top: 1rem; font-size: 0.9rem; }
+  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
+</style>
+</head>
+<body>
+
+<nav class="migas"><a href="../index.html">Inicio</a> → Vuelos baratos desde Santander</nav>
+
+<h1>Vuelos baratos desde Santander (SDR)</h1>
+
+<p>Esta página muestra los vuelos más baratos disponibles ahora mismo desde el aeropuerto Seve Ballesteros de Santander (SDR), con precios consultados en directo a través de la API de Travelpayouts en el momento de tu visita. No son estimaciones de temporada ni medias históricas: son tarifas reales que las aerolíneas tienen publicadas hoy para cada ruta.</p>
+
+<div id="vivo">
+  <div id="vivo-estado">Cargando precios en directo…</div>
+  <div id="vivo-resultados"></div>
+  <p class="cta"><a href="../explorar.html">Elegir otro mes o comparar desde otra ciudad →</a></p>
+</div>
+
+<h2>Volar desde el aeropuerto de Santander (Seve Ballesteros)</h2>
+
+<p>El aeropuerto de Santander funciona en la práctica como una base secundaria de Ryanair, que opera la gran mayoría de las rutas y determina buena parte de la oferta y los precios disponibles. Las conexiones más habituales son con Reino Unido, Italia y Marruecos, además de algunas rutas puntuales a otros países europeos según la temporada. Al depender tanto de una sola aerolínea, la disponibilidad de asientos baratos varía mucho según cuántas plazas libere Ryanair para cada vuelo.</p>
+
+<p>Al tratarse de un aeropuerto pequeño y con pocas aerolíneas, conviene ser flexible con las fechas: los precios pueden cambiar de un día para otro según la demanda de cada vuelo concreto. Reservar con margen es especialmente importante en las rutas y fechas con más tirón, como los puentes, la Semana Santa o los vuelos a Reino Unido en verano, cuando las plazas más baratas se agotan antes. El aeropuerto está a pocos minutos del centro de Santander y bien conectado por autobús urbano, lo que facilita llegar sin necesidad de coger un taxi.</p>
+
+<p>Los meses de temporada media —mayo, junio, septiembre y octubre— suelen ofrecer tarifas más bajas que julio, agosto o los periodos de vacaciones escolares, cuando la demanda hacia Reino Unido e Italia sube. Volar entre semana, sobre todo martes y miércoles, también suele salir más barato que los fines de semana. Como Ryanair ajusta sus precios de forma dinámica, el momento en que reservas importa tanto como la fecha del vuelo elegida.</p>
+
+<h2>Preguntas frecuentes sobre vuelos desde Santander</h2>
+
+<h3>¿Qué aerolíneas vuelan desde el aeropuerto de Santander?</h3>
+<p>Ryanair es, con diferencia, la aerolínea con más presencia en el aeropuerto de Santander y cubre la mayoría de las rutas disponibles. El resto de la oferta se completa con vuelos puntuales o de temporada de otras compañías en rutas concretas, normalmente en menor número que los operados por Ryanair.</p>
+
+<h3>¿A qué países se puede volar directamente desde Santander?</h3>
+<p>Las rutas con vuelo directo desde Santander se concentran sobre todo en Reino Unido, Italia y Marruecos, con algunas conexiones adicionales a otros países europeos según la época del año. El mapa de rutas cambia cada temporada, así que la forma más fiable de saber qué está disponible ahora es consultar los vuelos en directo de esta página.</p>
+
+<h3>¿Cuándo es más barato volar desde Santander?</h3>
+<p>Los precios suelen bajar en temporada media (mayo, junio, septiembre, octubre) y en vuelos entre semana, frente a julio, agosto, Semana Santa o los puentes, cuando la demanda hacia Reino Unido e Italia sube y las tarifas se encarecen. Reservar con antelación en fechas de mucha demanda ayuda a evitar los precios más altos.</p>
+
+<h3>¿Con cuánta antelación conviene reservar un vuelo barato desde Santander?</h3>
+<p>No hay una regla fija, porque Ryanair ajusta los precios según la demanda de cada vuelo, no según una fórmula de días de antelación. Como norma práctica, cuanto antes se reserve en rutas populares o fechas de vacaciones, más opciones hay de encontrar los asientos más baratos antes de que se agoten.</p>
+
+<h3>¿Los precios de esta página son reales o son una estimación?</h3>
+<p>Son datos reales: esta página consulta en directo la API de Travelpayouts en el momento de la visita, no utiliza precios medios ni estimaciones fijas de temporada. Los importes que ves corresponden a tarifas que las aerolíneas tienen publicadas para esa ruta en ese momento concreto.</p>
+
+<footer>
+  Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+  sin coste adicional para ti.
+</footer>
+
+<script>
+  const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
+  const ORIGIN = 'SDR';
+  const AIRPORTS_CACHE_KEY = 'airports_cache_v2';
+  const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+  async function getAirportNames() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
+      if (cached && Array.isArray(cached.airports) && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) {
+        const names = {};
+        for (const a of cached.airports) names[a.code] = a.name;
+        return names;
+      }
+    } catch (e) { /* cache invalida */ }
+    try {
+      const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
+      const raw = await r.json();
+      const airports = raw.filter((a) => a.code && a.flightable).map((a) => ({ code: a.code, name: a.name || a.code }));
+      localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), airports }));
+      const names = {};
+      for (const a of airports) names[a.code] = a.name;
+      return names;
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function mesActual() {
+    const hoy = new Date();
+    return `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}`;
+  }
+
+  async function cargar() {
+    const estadoDiv = document.getElementById('vivo-estado');
+    const resultadosDiv = document.getElementById('vivo-resultados');
+    try {
+      const [names, payload] = await Promise.all([
+        getAirportNames(),
+        fetch(`${WORKER_URL}?origin=${ORIGIN}&month=${mesActual()}`).then((r) => r.json()),
+      ]);
+      const resultados = (payload.results || []).slice(0, 6);
+      if (resultados.length === 0) {
+        estadoDiv.textContent = 'No se encontraron vuelos para este mes. Prueba a explorar otros meses.';
+        return;
+      }
+      estadoDiv.textContent = 'Más baratos encontrados este mes:';
+      for (const r of resultados) {
+        const a = document.createElement('a');
+        a.className = 'destino';
+        a.href = 'https://vuelos.inteligenciaconia.com';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `<div class="ciudad">${names[r.destination] || r.destination}</div><div class="precio">${Math.round(r.price)} €</div>`;
+        resultadosDiv.appendChild(a);
+      }
+    } catch (err) {
+      estadoDiv.textContent = 'No se pudieron cargar los precios en directo ahora mismo.';
+    }
+  }
+
+  cargar();
+</script>
+
+</body>
+</html>

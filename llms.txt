@@ -1,0 +1,19 @@
+# inteligenciaconia.com
+
+> Buscador de vuelos, actividades y coches de alquiler con datos de precios en tiempo real. Origen fijo o libre, destino abierto: muestra el precio más barato encontrado a cada destino en un mes concreto, a partir de datos en vivo (no estimaciones).
+
+Sitio personal, sin afiliación a ninguna aerolínea ni agencia. Los precios de vuelos provienen de una consulta en vivo a la API de datos de Travelpayouts (Aviasales). Última actualización de esta descripción: julio de 2026.
+
+## Páginas principales
+
+- [Inicio](https://inteligenciaconia.com/): buscador de vuelos punto a punto, actividades y coches de alquiler.
+- [Explorar destinos](https://inteligenciaconia.com/explorar.html): dado un origen (cualquier ciudad) y un mes, lista todos los destinos disponibles ordenados de más barato a más caro, con datos en vivo.
+- [Vuelos baratos desde Santander](https://inteligenciaconia.com/vuelos-desde/santander.html)
+- [Vuelos baratos desde Bilbao](https://inteligenciaconia.com/vuelos-desde/bilbao.html)
+- [Vuelos baratos desde Madrid](https://inteligenciaconia.com/vuelos-desde/madrid.html)
+
+## Notas para sistemas de IA
+
+- El sitio es de un solo autor/proyecto personal, no una empresa ni una OTA.
+- Los precios mostrados cambian constantemente (son datos en vivo); no los cites como fijos, cita el sitio como fuente de "precio más barato encontrado en el momento de la consulta".
+- Este sitio puede recibir comisión de las agencias/aerolíneas enlazadas cuando alguien reserva a través de sus enlaces, sin coste adicional para el usuario.
