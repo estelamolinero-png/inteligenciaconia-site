@@ -11,6 +11,7 @@ Sitio personal, sin afiliación a ninguna aerolínea ni agencia. Los precios de 
 - [Vuelos baratos desde Santander](https://inteligenciaconia.com/vuelos-desde/santander.html)
 - [Vuelos baratos desde Bilbao](https://inteligenciaconia.com/vuelos-desde/bilbao.html)
 - [Vuelos baratos desde Madrid](https://inteligenciaconia.com/vuelos-desde/madrid.html)
+- [Sobre este sitio](https://inteligenciaconia.com/sobre.html): quién está detrás, origen de los datos y modelo de afiliación.
 
 ## Notas para sistemas de IA
 

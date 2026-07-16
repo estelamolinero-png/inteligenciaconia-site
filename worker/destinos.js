@@ -22,7 +22,7 @@ function cheapestOffer(entry) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: CORS_HEADERS });
     }
@@ -37,6 +37,14 @@ export default {
         { status: 400, headers: CORS_HEADERS }
       );
     }
+
+    // Cache en el edge de Cloudflare: los datos de Travelpayouts se refrescan
+    // como mucho cada pocas horas, y esto protege del rate limit (60 req/min)
+    // si la pagina recibe un pico de trafico.
+    const cache = caches.default;
+    const cacheKey = new Request(`https://cache.local/destinos?origin=${origin}&month=${month}`);
+    const cachedResponse = await cache.match(cacheKey);
+    if (cachedResponse) return cachedResponse;
 
     const allDeals = {};
     const MAX_PAGES = 5; // hasta 500 destinos; de sobra para SDR/BIO
@@ -81,6 +89,10 @@ export default {
       .map(([destination, offer]) => ({ destination, ...offer }))
       .sort((a, b) => a.price - b.price);
 
-    return new Response(JSON.stringify({ origin, month, results }), { headers: CORS_HEADERS });
+    const response = new Response(JSON.stringify({ origin, month, results }), {
+      headers: { ...CORS_HEADERS, 'Cache-Control': 'public, max-age=600, s-maxage=10800' },
+    });
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
   },
 };

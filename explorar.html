@@ -124,6 +124,8 @@
   Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
   Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
   sin coste adicional para ti.
+  <br><br>
+  <a href="sobre.html">Sobre este sitio</a> · <a href="privacidad.html">Privacidad y cookies</a>
 </footer>
 
 <script>
@@ -206,6 +208,12 @@
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
+  function deepLink(origin, dest, departureAt) {
+    const m = /^\d{4}-(\d{2})-(\d{2})/.exec(departureAt || '');
+    if (!m) return 'https://vuelos.inteligenciaconia.com';
+    return `https://vuelos.inteligenciaconia.com/flights/${origin}${m[2]}${m[1]}${dest}1`;
+  }
+
   async function buscar() {
     const month = mesSelect.value;
     buscarBtn.disabled = true;
@@ -236,7 +244,7 @@
       for (const r of resultados) {
         const a = document.createElement('a');
         a.className = 'destino';
-        a.href = 'https://vuelos.inteligenciaconia.com';
+        a.href = deepLink(origin, r.destination, r.departure_at);
         a.target = '_blank';
         a.rel = 'noopener';
         a.innerHTML = `
