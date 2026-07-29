@@ -13,6 +13,13 @@ Sitio personal, sin afiliación a ninguna aerolínea ni agencia. Los precios de 
 - [Vuelos baratos desde Madrid](https://inteligenciaconia.com/vuelos-desde/madrid.html)
 - [Sobre este sitio](https://inteligenciaconia.com/sobre.html): quién está detrás, origen de los datos y modelo de afiliación.
 
+## Blog (guías de viaje)
+
+- [Cómo encontrar vuelos baratos desde un aeropuerto pequeño](https://inteligenciaconia.com/blog/vuelos-baratos-aeropuerto-pequeno.html)
+- [Checklist antes de reservar un vuelo barato](https://inteligenciaconia.com/blog/checklist-antes-de-reservar.html)
+- [Alquilar un coche barato sin sustos: franquicia, depósitos y seguros](https://inteligenciaconia.com/blog/alquilar-coche-sin-sustos.html)
+- [Por qué los precios de los vuelos cambian tanto](https://inteligenciaconia.com/blog/por-que-cambian-los-precios.html)
+
 ## Notas para sistemas de IA
 
 - El sitio es de un solo autor/proyecto personal, no una empresa ni una OTA.
