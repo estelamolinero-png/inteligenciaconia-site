@@ -11,6 +11,16 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://inteligenciaconia.com/chollos.html</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inteligenciaconia.com/organizador.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://inteligenciaconia.com/vuelos-desde/santander.html</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>

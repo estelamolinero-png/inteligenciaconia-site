@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chollos de vuelo de hoy desde Santander, Bilbao y Madrid — en vivo</title>
+<meta name="description" content="Los vuelos de ida y vuelta más baratos disponibles ahora mismo desde Santander, Bilbao y Madrid, con precios consultados en directo y enlaces para comparar y reservar.">
+<link rel="canonical" href="https://inteligenciaconia.com/chollos.html">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Chollos de vuelo de hoy — Santander, Bilbao y Madrid">
+<meta property="og:description" content="Lo más barato ahora mismo desde los tres aeropuertos, con precios en directo.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inteligenciaconia.com/chollos.html">
+<meta property="og:image" content="https://inteligenciaconia.com/img/hero-poster.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://inteligenciaconia.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Chollos de hoy", "item": "https://inteligenciaconia.com/chollos.html" }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+<style>
+  .rejilla-chollos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 0.5rem;
+  }
+  .chollo-item { display: flex; flex-direction: column; gap: 0.4rem; }
+  .chollo-item .destino-tarjeta { flex: 1; }
+  .comparar { font-size: 0.78rem; color: var(--tinta-suave); padding-left: 0.2rem; }
+  .comparar a { color: var(--tinta-suave); text-decoration: underline; }
+  .bloque-origen { margin-bottom: 2.5rem; }
+  .bloque-origen h2 { margin-bottom: 0.25rem; }
+  .nota-origen { color: var(--tinta-suave); margin-top: 0; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="marca" href="index.html"><span class="avion">✈</span>inteligenciaconia</a>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="explorar.html">Explorar destinos</a>
+      <a href="chollos.html">Chollos</a>
+      <a href="organizador.html">Organizador IA</a>
+      <a href="vuelos-desde/santander.html">Santander</a>
+      <a href="vuelos-desde/bilbao.html">Bilbao</a>
+      <a href="vuelos-desde/madrid.html">Madrid</a>
+      <a href="blog/">Blog</a>
+      <a class="destacado" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+    </div>
+  </div>
+</nav>
+
+<main class="contenedor">
+
+<div class="migas"><a href="index.html">Inicio</a> → Chollos de hoy</div>
+
+<div class="etiqueta-seccion">En vivo</div>
+<h1 class="titulo" style="font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 0.4rem;">Chollos de vuelo de hoy</h1>
+<p style="color: var(--tinta-suave); max-width: 62ch; margin-top: 0;">Los vuelos de <strong>ida y vuelta</strong> más baratos disponibles ahora mismo desde los tres aeropuertos, consultados en directo. Cada tarjeta abre la búsqueda ya rellenada con esas fechas, y puedes contrastar el precio en otros buscadores antes de reservar.</p>
+
+<section class="bloque-origen" id="bloque-SDR">
+  <h2>🌊 Desde Santander</h2>
+  <p class="nota-origen">Lo más barato este mes desde el aeropuerto Seve Ballesteros (SDR). <a href="vuelos-desde/santander.html">Más sobre volar desde Santander →</a></p>
+  <div class="estado-carrusel" id="estado-SDR">Cargando precios en directo…</div>
+  <div class="rejilla-chollos" id="chollos-SDR"></div>
+</section>
+
+<section class="bloque-origen" id="bloque-BIO">
+  <h2>🌉 Desde Bilbao</h2>
+  <p class="nota-origen">Lo más barato este mes desde el aeropuerto de Bilbao (BIO). <a href="vuelos-desde/bilbao.html">Más sobre volar desde Bilbao →</a></p>
+  <div class="estado-carrusel" id="estado-BIO">Cargando precios en directo…</div>
+  <div class="rejilla-chollos" id="chollos-BIO"></div>
+</section>
+
+<section class="bloque-origen" id="bloque-MAD">
+  <h2>🏙️ Desde Madrid</h2>
+  <p class="nota-origen">Lo más barato este mes desde Madrid-Barajas (MAD). <a href="vuelos-desde/madrid.html">Más sobre volar desde Madrid →</a></p>
+  <div class="estado-carrusel" id="estado-MAD">Cargando precios en directo…</div>
+  <div class="rejilla-chollos" id="chollos-MAD"></div>
+</section>
+
+<p style="color: var(--tinta-suave); font-size: 0.9rem;">¿Tu ciudad no está aquí? En el <a href="explorar.html">explorador</a> puedes buscar desde cualquier aeropuerto.</p>
+
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-columnas">
+      <div>
+        <h4>Buscar</h4>
+        <ul>
+          <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
+          <li><a href="explorar.html">Explorar destinos</a></li>
+          <li><a href="organizador.html">Organizador de viajes con IA</a></li>
+          <li><a href="chollos.html">Chollos de hoy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vuelos por ciudad</h4>
+        <ul>
+          <li><a href="vuelos-desde/santander.html">Desde Santander</a></li>
+          <li><a href="vuelos-desde/bilbao.html">Desde Bilbao</a></li>
+          <li><a href="vuelos-desde/madrid.html">Desde Madrid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <ul>
+          <li><a href="blog/">Blog</a></li>
+          <li><a href="sobre.html">Sobre este sitio</a></li>
+          <li><a href="privacidad.html">Privacidad y cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso">
+      Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+      Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+      sin coste adicional para ti.
+    </div>
+  </div>
+</footer>
+
+<script src="js/aeropuertos.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/chollos-vivo.js"></script>
+
+</body>
+</html>

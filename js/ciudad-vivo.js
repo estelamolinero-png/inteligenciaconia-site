@@ -45,7 +45,7 @@
         const info = porCodigo[r.destination] || {};
         const a = document.createElement('a');
         a.className = `destino-tarjeta ${IC.gradiente(r.destination)}`;
-        a.href = IC.deepLink(ORIGIN, r.destination, r.departure_at);
+        a.href = IC.deepLink(ORIGIN, r.destination, r.departure_at, r.return_at);
         a.target = '_blank';
         a.rel = 'noopener';
         a.innerHTML = `

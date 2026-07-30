@@ -10,6 +10,8 @@
 <meta property="og:description" content="Escribe cualquier ciudad de origen y un mes: te mostramos el precio más barato encontrado a cada destino, en vivo.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inteligenciaconia.com/explorar.html">
+<meta property="og:image" content="https://inteligenciaconia.com/img/hero-poster.jpg">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -55,6 +57,8 @@
     <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
     <div class="nav-links">
       <a href="explorar.html">Explorar destinos</a>
+      <a href="chollos.html">Chollos</a>
+      <a href="organizador.html">Organizador IA</a>
       <a href="vuelos-desde/santander.html">Santander</a>
       <a href="vuelos-desde/bilbao.html">Bilbao</a>
       <a href="vuelos-desde/madrid.html">Madrid</a>
@@ -94,6 +98,14 @@
 <div id="estado"></div>
 <div id="resultados"></div>
 
+
+<div class="tarjeta" id="completa-viaje" style="margin: 1.5rem 0 2rem;">
+  <span class="icono">🧳</span>
+  <h3 style="margin: 0.4rem 0 0.3rem;">Completa el viaje</h3>
+  <p style="margin: 0 0 0.6rem;">Cuando tengas el vuelo, esto es lo que más se olvida (y lo que más sube a última hora):</p>
+  <p style="margin: 0;"><a href="https://getrentacar.tpm.lv/NHNxZ9Do" target="_blank" rel="noopener">🚗 Coche de alquiler en destino</a> &nbsp;·&nbsp; <a href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">🎟️ Actividades y entradas</a> &nbsp;·&nbsp; <a href="blog/alquilar-coche-sin-sustos.html">Guía: alquilar coche sin sustos</a></p>
+</div>
+
 </main>
 
 <footer class="pie">
@@ -104,6 +116,8 @@
         <ul>
           <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
           <li><a href="explorar.html">Explorar destinos</a></li>
+          <li><a href="chollos.html">Chollos de hoy</a></li>
+          <li><a href="organizador.html">Organizador de viajes con IA</a></li>
         </ul>
       </div>
       <div>
@@ -220,7 +234,7 @@
         const info = porCodigo[r.destination] || {};
         const a = document.createElement('a');
         a.className = `destino-tarjeta ${IC.gradiente(r.destination)}`;
-        a.href = IC.deepLink(origin, r.destination, r.departure_at);
+        a.href = IC.deepLink(origin, r.destination, r.departure_at, r.return_at);
         a.target = '_blank';
         a.rel = 'noopener';
         a.innerHTML = `

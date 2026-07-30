@@ -64,7 +64,7 @@
         const info = porCodigo[r.destination] || {};
         const a = document.createElement('a');
         a.className = `destino-tarjeta ${IC.gradiente(r.destination)}`;
-        a.href = IC.deepLink(origen, r.destination, r.departure_at);
+        a.href = IC.deepLink(origen, r.destination, r.departure_at, r.return_at);
         a.target = '_blank';
         a.rel = 'noopener';
         a.innerHTML = `
@@ -87,9 +87,14 @@
   }
 
   document.querySelectorAll('.tab[data-origen]').forEach((tab) => {
+    tab.setAttribute('aria-pressed', String(tab.classList.contains('activo')));
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab[data-origen]').forEach((t) => t.classList.remove('activo'));
+      document.querySelectorAll('.tab[data-origen]').forEach((t) => {
+        t.classList.remove('activo');
+        t.setAttribute('aria-pressed', 'false');
+      });
       tab.classList.add('activo');
+      tab.setAttribute('aria-pressed', 'true');
       pintar(tab.dataset.origen);
     });
   });

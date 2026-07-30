@@ -49,10 +49,33 @@
     return String.fromCodePoint(base + cc.charCodeAt(0) - 65, base + cc.charCodeAt(1) - 65);
   }
 
-  function deepLink(origin, dest, departureAt) {
-    const m = /^\d{4}-(\d{2})-(\d{2})/.exec(departureAt || '');
-    if (!m) return 'https://vuelos.inteligenciaconia.com';
-    return `https://vuelos.inteligenciaconia.com/flights/${origin}${m[2]}${m[1]}${dest}1`;
+  // Los precios de la API cheap son de ida y vuelta: si hay fecha de vuelta,
+  // el deep-link debe abrir la busqueda ida+vuelta para que el precio cuadre.
+  function deepLink(origin, dest, departureAt, returnAt) {
+    const ida = /^\d{4}-(\d{2})-(\d{2})/.exec(departureAt || '');
+    if (!ida) return 'https://vuelos.inteligenciaconia.com';
+    const vuelta = /^\d{4}-(\d{2})-(\d{2})/.exec(returnAt || '');
+    const tramoVuelta = vuelta ? `${vuelta[2]}${vuelta[1]}` : '';
+    return `https://vuelos.inteligenciaconia.com/flights/${origin}${ida[2]}${ida[1]}${dest}${tramoVuelta}1`;
+  }
+
+  // Enlaces de contraste para verificar el precio en otros buscadores.
+  function compararLinks(origin, dest, departureAt, returnAt) {
+    const ida = /^(\d{4})-(\d{2})-(\d{2})/.exec(departureAt || '');
+    if (!ida) return [];
+    const isoIda = `${ida[1]}-${ida[2]}-${ida[3]}`;
+    const vuelta = /^(\d{4})-(\d{2})-(\d{2})/.exec(returnAt || '');
+    const skyFecha = (m) => m[1].slice(2) + m[2] + m[3];
+    const enlaces = [];
+    let gq = `Flights from ${origin} to ${dest} on ${isoIda}`;
+    let sky = `https://www.skyscanner.es/transport/flights/${origin.toLowerCase()}/${dest.toLowerCase()}/${skyFecha(ida)}/`;
+    if (vuelta) {
+      gq += ` returning ${vuelta[1]}-${vuelta[2]}-${vuelta[3]}`;
+      sky += `${skyFecha(vuelta)}/`;
+    }
+    enlaces.push({ nombre: 'Google Flights', url: `https://www.google.com/travel/flights?q=${encodeURIComponent(gq)}` });
+    enlaces.push({ nombre: 'Skyscanner', url: sky });
+    return enlaces;
   }
 
   function gradiente(codigo) {
@@ -61,5 +84,5 @@
     return 'g' + h;
   }
 
-  window.IC = { getAirports, nombreCorto, bandera, deepLink, gradiente };
+  window.IC = { getAirports, nombreCorto, bandera, deepLink, compararLinks, gradiente };
 })();
