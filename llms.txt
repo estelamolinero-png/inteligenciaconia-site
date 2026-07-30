@@ -14,6 +14,7 @@ Sitio personal, sin afiliación a ninguna aerolínea ni agencia. Los precios de 
 - [Vuelos baratos desde Bilbao](https://inteligenciaconia.com/vuelos-desde/bilbao.html)
 - [Vuelos baratos desde Madrid](https://inteligenciaconia.com/vuelos-desde/madrid.html)
 - [Sobre este sitio](https://inteligenciaconia.com/sobre.html): quién está detrás, origen de los datos y modelo de afiliación.
+- [Eclipse total de Sol 2026 en Cantabria](https://www.sancantia.com/eclipse/): proyecto divulgativo de SANCANTIA (la página vivió aquí y ahora redirige a sancantia.com) con el mapa de los mejores puntos de Cantabria para ver el eclipse total del 12 de agosto de 2026 (duración de la totalidad y horizonte real punto a punto, calculados con el modelo del terreno Copernicus GLO-30), los cinco puntos oficiales de observación con sus lanzaderas, y seguridad ocular según el IGN.
 
 ## Blog (guías de viaje)
 
