@@ -8,6 +8,8 @@ Sitio personal, sin afiliación a ninguna aerolínea ni agencia. Los precios de 
 
 - [Inicio](https://inteligenciaconia.com/): buscador de vuelos punto a punto, actividades y coches de alquiler.
 - [Explorar destinos](https://inteligenciaconia.com/explorar.html): dado un origen (cualquier ciudad) y un mes, lista todos los destinos disponibles ordenados de más barato a más caro, con datos en vivo.
+- [Chollos de hoy](https://inteligenciaconia.com/chollos.html): los vuelos de ida y vuelta más baratos ahora mismo desde Santander, Bilbao y Madrid, en vivo.
+- [Organizador de viajes con IA](https://inteligenciaconia.com/organizador.html): el usuario describe el viaje que busca y una IA elige entre los vuelos reales más baratos del mes, con mini-plan y enlace de reserva.
 - [Vuelos baratos desde Santander](https://inteligenciaconia.com/vuelos-desde/santander.html)
 - [Vuelos baratos desde Bilbao](https://inteligenciaconia.com/vuelos-desde/bilbao.html)
 - [Vuelos baratos desde Madrid](https://inteligenciaconia.com/vuelos-desde/madrid.html)

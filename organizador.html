@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organizador de viajes con IA — dime qué buscas y te lo encuentro</title>
+<meta name="description" content="Describe tu viaje ideal y la IA elige entre los vuelos reales más baratos desde Santander, Bilbao o Madrid: destino, fechas, mini-plan y reserva a un clic.">
+<link rel="canonical" href="https://inteligenciaconia.com/organizador.html">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Organizador de viajes con IA | inteligenciaconia.com">
+<meta property="og:description" content="Describe tu viaje y la IA lo organiza con precios reales de vuelos: destino, fechas, plan y reserva a un clic.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inteligenciaconia.com/organizador.html">
+<meta property="og:image" content="https://inteligenciaconia.com/img/hero-poster.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://inteligenciaconia.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Organizador de viajes con IA", "item": "https://inteligenciaconia.com/organizador.html" }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+<style>
+  #formulario {
+    padding: 1.5rem;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    margin: 1.5rem 0;
+    max-width: 720px;
+  }
+  #formulario label { display: block; font-size: 0.85rem; color: var(--tinta-suave); margin: 1rem 0 0.3rem; }
+  #formulario label:first-child { margin-top: 0; }
+  #texto-viaje {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 90px;
+    padding: 0.8rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--borde);
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--papel);
+    color: var(--tinta);
+    resize: vertical;
+  }
+  #texto-viaje:focus, #mes-viaje:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
+  #mes-viaje {
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--borde);
+    font-size: 1rem;
+    background: var(--papel);
+    color: var(--tinta);
+  }
+  .ejemplos { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+  .ejemplo {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--borde);
+    background: var(--papel);
+    color: var(--tinta-suave);
+    cursor: pointer;
+  }
+  .ejemplo:hover { border-color: var(--acento); color: var(--tinta); }
+  #estado-ia { color: var(--tinta-suave); font-style: italic; margin: 1rem 0; min-height: 1.4em; }
+  .plan-tarjeta {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    max-width: 720px;
+  }
+  .plan-cabecera { padding: 1.1rem 1.4rem; color: #fff; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+  .plan-cabecera h3 { margin: 0; font-size: 1.35rem; color: #fff; }
+  .plan-cabecera .precio-plan { font-size: 1.25rem; font-weight: 700; }
+  .plan-cuerpo { padding: 1.1rem 1.4rem 1.3rem; }
+  .plan-fechas { color: var(--tinta-suave); font-size: 0.9rem; margin: 0 0 0.6rem; }
+  .plan-cuerpo ul { margin: 0.6rem 0 1rem; padding-left: 1.2rem; }
+  .plan-cuerpo li { margin-bottom: 0.3rem; }
+  .plan-acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+  .plan-acciones .comparar-ia { font-size: 0.8rem; color: var(--tinta-suave); }
+  .plan-acciones .comparar-ia a { color: var(--tinta-suave); text-decoration: underline; }
+  #consejo-ia { max-width: 720px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="marca" href="index.html"><span class="avion">✈</span>inteligenciaconia</a>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="explorar.html">Explorar destinos</a>
+      <a href="chollos.html">Chollos</a>
+      <a href="organizador.html">Organizador IA</a>
+      <a href="vuelos-desde/santander.html">Santander</a>
+      <a href="vuelos-desde/bilbao.html">Bilbao</a>
+      <a href="vuelos-desde/madrid.html">Madrid</a>
+      <a href="blog/">Blog</a>
+      <a class="destacado" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+    </div>
+  </div>
+</nav>
+
+<main class="contenedor">
+
+<div class="migas"><a href="index.html">Inicio</a> → Organizador de viajes con IA</div>
+
+<div class="etiqueta-seccion">Inteligencia con IA</div>
+<h1 class="titulo" style="font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 0.4rem;">Organizador de viajes con IA</h1>
+<p style="color: var(--tinta-suave); max-width: 62ch; margin-top: 0;">Cuéntale a la IA qué viaje te apetece y ella elige entre los <strong>vuelos reales más baratos</strong> disponibles ese mes: te propone destino, fechas, un mini-plan y te deja la reserva a un clic. El pago se hace siempre en la web de la aerolínea o agencia.</p>
+
+<div id="formulario">
+  <label>Salgo desde</label>
+  <div class="tabs" id="origen-ia" style="margin: 0;">
+    <button class="tab activo" type="button" data-origen="SDR" aria-pressed="true">Santander</button>
+    <button class="tab" type="button" data-origen="BIO" aria-pressed="false">Bilbao</button>
+    <button class="tab" type="button" data-origen="MAD" aria-pressed="false">Madrid</button>
+  </div>
+
+  <label for="mes-viaje">Mes del viaje</label>
+  <select id="mes-viaje"></select>
+
+  <label for="texto-viaje">¿Qué viaje te apetece?</label>
+  <textarea id="texto-viaje" maxlength="300" placeholder="Ej.: Un fin de semana largo, ciudad europea con buen ambiente y comida rica, presupuesto ajustado, vamos dos adultos."></textarea>
+  <div class="ejemplos">
+    <button class="ejemplo" type="button">Playa y calor sin gastar mucho</button>
+    <button class="ejemplo" type="button">Escapada romántica de 3-4 días</button>
+    <button class="ejemplo" type="button">Viaje con niños, vuelos cortos</button>
+    <button class="ejemplo" type="button">Ciudad con buena gastronomía</button>
+  </div>
+
+  <div style="margin-top: 1.25rem;">
+    <button class="boton boton-primario" id="organizar">Organízame el viaje</button>
+  </div>
+</div>
+
+<div id="estado-ia" aria-live="polite"></div>
+<div id="planes"></div>
+<div id="consejo-ia"></div>
+
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-columnas">
+      <div>
+        <h4>Buscar</h4>
+        <ul>
+          <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
+          <li><a href="explorar.html">Explorar destinos</a></li>
+          <li><a href="organizador.html">Organizador de viajes con IA</a></li>
+          <li><a href="chollos.html">Chollos de hoy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vuelos por ciudad</h4>
+        <ul>
+          <li><a href="vuelos-desde/santander.html">Desde Santander</a></li>
+          <li><a href="vuelos-desde/bilbao.html">Desde Bilbao</a></li>
+          <li><a href="vuelos-desde/madrid.html">Desde Madrid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <ul>
+          <li><a href="blog/">Blog</a></li>
+          <li><a href="sobre.html">Sobre este sitio</a></li>
+          <li><a href="privacidad.html">Privacidad y cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso">
+      Las recomendaciones se generan con IA a partir de precios reales de vuelos; revisa siempre fechas y condiciones antes de reservar.
+      Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+      sin coste adicional para ti.
+    </div>
+  </div>
+</footer>
+
+<script src="js/aeropuertos.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(function () {
+  const API_URL = 'https://api.inteligenciaconia.com/organiza';
+  const mesSelect = document.getElementById('mes-viaje');
+  const texto = document.getElementById('texto-viaje');
+  const boton = document.getElementById('organizar');
+  const estado = document.getElementById('estado-ia');
+  const planes = document.getElementById('planes');
+  const consejoDiv = document.getElementById('consejo-ia');
+  let origen = 'SDR';
+
+  const NOMBRES_MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const hoy = new Date();
+  for (let i = 0; i < 8; i++) {
+    const d = new Date(hoy.getFullYear(), hoy.getMonth() + i, 1);
+    const opt = document.createElement('option');
+    opt.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    opt.textContent = `${NOMBRES_MES[d.getMonth()]} ${d.getFullYear()}`;
+    mesSelect.appendChild(opt);
+  }
+
+  document.querySelectorAll('#origen-ia .tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#origen-ia .tab').forEach((t) => {
+        t.classList.remove('activo');
+        t.setAttribute('aria-pressed', 'false');
+      });
+      tab.classList.add('activo');
+      tab.setAttribute('aria-pressed', 'true');
+      origen = tab.dataset.origen;
+    });
+  });
+
+  document.querySelectorAll('.ejemplo').forEach((btn) => {
+    btn.addEventListener('click', () => { texto.value = btn.textContent; texto.focus(); });
+  });
+
+  function enlaceAfiliado(tipo) {
+    return tipo === 'coche'
+      ? '<a href="https://getrentacar.tpm.lv/NHNxZ9Do" target="_blank" rel="noopener">🚗 Coche de alquiler</a>'
+      : '<a href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">🎟️ Planes y entradas</a>';
+  }
+
+  async function organizar() {
+    const peticion = texto.value.trim();
+    if (peticion.length < 5) {
+      estado.textContent = 'Cuéntame un poco más: ¿qué tipo de viaje buscas?';
+      return;
+    }
+    boton.disabled = true;
+    planes.innerHTML = '';
+    consejoDiv.innerHTML = '';
+    estado.textContent = 'La IA está mirando los vuelos reales de ese mes y montando tu plan… (unos segundos)';
+
+    try {
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ origen, mes: mesSelect.value, texto: peticion }),
+      });
+      const datos = await resp.json();
+      if (!resp.ok || datos.error) throw new Error(datos.error || `Error ${resp.status}`);
+
+      estado.textContent = '';
+      for (const r of datos.recomendaciones || []) {
+        const tarjeta = document.createElement('div');
+        tarjeta.className = 'plan-tarjeta';
+
+        const cabecera = document.createElement('div');
+        cabecera.className = `plan-cabecera destino-tarjeta ${IC.gradiente(r.codigo)}`;
+        cabecera.style.minHeight = 'auto';
+        cabecera.innerHTML = `<h3>${r.ciudad} <small style="opacity:0.8;font-size:0.8rem;">${r.codigo}</small></h3><span class="precio-plan">${Math.round(r.precio)} € <small style="font-size:0.75rem;font-weight:400;">ida y vuelta</small></span>`;
+        tarjeta.appendChild(cabecera);
+
+        const cuerpo = document.createElement('div');
+        cuerpo.className = 'plan-cuerpo';
+        const enlaces = IC.compararLinks(origen, r.codigo, r.fecha_ida, r.fecha_vuelta);
+        const compararHtml = enlaces.map((e) => `<a href="${e.url}" target="_blank" rel="noopener nofollow">${e.nombre}</a>`).join(' · ');
+        cuerpo.innerHTML = `
+          <p class="plan-fechas">Ida ${r.fecha_ida} · Vuelta ${r.fecha_vuelta}</p>
+          <p>${r.motivo}</p>
+          <ul>${(r.plan || []).map((p) => `<li>${p}</li>`).join('')}</ul>
+          <div class="plan-acciones">
+            <a class="boton boton-primario" href="${IC.deepLink(origen, r.codigo, r.fecha_ida, r.fecha_vuelta)}" target="_blank" rel="noopener">Reservar vuelo →</a>
+            ${enlaceAfiliado('coche')} ${enlaceAfiliado('planes')}
+            <span class="comparar-ia">Comparar precio: ${compararHtml}</span>
+          </div>
+        `;
+        tarjeta.appendChild(cuerpo);
+        planes.appendChild(tarjeta);
+      }
+
+      if (datos.consejo) {
+        consejoDiv.innerHTML = `<div class="tarjeta" style="margin-top:0.5rem;"><span class="icono">💡</span><p style="margin:0.4rem 0 0;">${datos.consejo}</p></div>`;
+      }
+      if (!(datos.recomendaciones || []).length) {
+        estado.textContent = 'La IA no ha encontrado nada que encaje. Prueba con otro mes u otra descripción.';
+      }
+    } catch (err) {
+      estado.textContent = `No se pudo organizar el viaje: ${err.message}`;
+    } finally {
+      boton.disabled = false;
+    }
+  }
+
+  boton.addEventListener('click', organizar);
+})();
+</script>
+
+</body>
+</html>
