@@ -11,6 +11,7 @@
 <meta property="og:description" content="Compara vuelos, actividades y coches de alquiler con precios en tiempo real desde cualquier origen.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inteligenciaconia.com/">
+<meta property="og:image" content="https://inteligenciaconia.com/img/hero-poster.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -21,87 +22,237 @@
   "inLanguage": "es"
 }
 </script>
-
-<style>
-  :root { color-scheme: light dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-    line-height: 1.5;
-  }
-  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
-  h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; }
-  p.subtitle { color: #666; margin-top: 0; }
-  .tarjeta {
-    margin: 1rem 0;
-    padding: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    text-align: center;
-  }
-  .tarjeta a.boton {
-    display: inline-block;
-    margin-top: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    background: #1a73e8;
-    color: #fff;
-    border-radius: 8px;
-    font-weight: 600;
-  }
-  .tarjeta a.boton:hover { background: #1558b0; text-decoration: none; }
-  .tarjeta.pendiente { color: #888; font-style: italic; }
-  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
 
-<h1>Encuentra tu vuelo</h1>
-<p class="subtitle">Busca y compara vuelos, actividades y coches de alquiler para tu próximo viaje.</p>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="marca" href="index.html"><span class="avion">✈</span>inteligenciaconia</a>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="explorar.html">Explorar destinos</a>
+      <a href="vuelos-desde/santander.html">Santander</a>
+      <a href="vuelos-desde/bilbao.html">Bilbao</a>
+      <a href="vuelos-desde/madrid.html">Madrid</a>
+      <a href="blog/">Blog</a>
+      <a class="destacado" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+    </div>
+  </div>
+</nav>
 
-<div class="tarjeta">
-  <p>Compara y reserva tu vuelo:</p>
-  <a class="boton" href="https://vuelos.inteligenciaconia.com">Buscar vuelos →</a>
-</div>
+<header class="hero">
+  <div class="hero-media">
+    <video id="hero-video" muted loop playsinline preload="none" poster="img/hero-poster.jpg" aria-hidden="true"></video>
+  </div>
+  <div class="hero-contenido">
+    <div class="chip-vivo"><span class="punto"></span><span id="chip-vivo-texto">Precios consultados en vivo, no estimaciones</span></div>
+    <h1>Vuela barato, con datos en vivo</h1>
+    <p class="entradilla">Comparamos precios reales de vuelos, actividades y coches de alquiler en el momento en que buscas — sin marcas patrocinadas ni tarifas de hace semanas. Con especial cariño por Santander y Bilbao.</p>
+    <div class="hero-acciones">
+      <a class="boton boton-primario" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+      <a class="boton boton-secundario" href="explorar.html">¿A dónde puedo volar barato?</a>
+    </div>
+  </div>
+</header>
 
-<div class="tarjeta">
-  <p>¿No sabes dónde ir? Descubre qué destinos son más baratos este mes:</p>
-  <a class="boton" href="explorar.html">Explorar destinos →</a>
-</div>
+<section class="seccion">
+  <div class="contenedor">
+    <div class="etiqueta-seccion">Chollos en vivo</div>
+    <h2>Los más baratos este mes</h2>
+    <p class="descripcion">Precio más barato encontrado a cada destino, consultado en directo. Toca una tarjeta y llegas a la búsqueda con la ruta y la fecha ya puestas.</p>
+    <div class="tabs">
+      <button class="tab activo" data-origen="SDR">Desde Santander</button>
+      <button class="tab" data-origen="BIO">Desde Bilbao</button>
+      <button class="tab" data-origen="MAD">Desde Madrid</button>
+    </div>
+    <div class="carrusel-envoltorio">
+      <button class="carrusel-flecha izq" aria-label="Anterior">←</button>
+      <div class="carrusel" id="carrusel-chollos"></div>
+      <button class="carrusel-flecha der" aria-label="Siguiente">→</button>
+    </div>
+    <p class="estado-carrusel" id="estado-chollos"></p>
+  </div>
+</section>
 
-<h2>Chollos de vuelo por ciudad</h2>
-<p><a href="vuelos-desde/santander.html">Vuelos baratos desde Santander</a> ·
-   <a href="vuelos-desde/bilbao.html">Vuelos baratos desde Bilbao</a> ·
-   <a href="vuelos-desde/madrid.html">Vuelos baratos desde Madrid</a></p>
+<section class="seccion">
+  <div class="contenedor">
+    <div class="etiqueta-seccion">Cómo funciona</div>
+    <h2>Tres pasos, cero letra pequeña</h2>
+    <div class="rejilla" style="margin-top: 1.5rem;">
+      <div class="tarjeta paso revelar">
+        <span class="numero">01</span>
+        <h3>Descubre</h3>
+        <p>Elige tu aeropuerto y un mes en el <a href="explorar.html">explorador</a>: verás todos los destinos ordenados del más barato al más caro, con datos del momento.</p>
+      </div>
+      <div class="tarjeta paso revelar">
+        <span class="numero">02</span>
+        <h3>Compara</h3>
+        <p>Cada tarjeta te lleva a la búsqueda ya rellenada con ruta y fecha. Ajusta días, equipaje o pasajeros y compara aerolíneas y agencias en un solo sitio.</p>
+      </div>
+      <div class="tarjeta paso revelar">
+        <span class="numero">03</span>
+        <h3>Reserva</h3>
+        <p>Reservas siempre en la web de la aerolínea o agencia, al mismo precio que yendo directamente. Nosotros no cobramos nada extra: nos paga la marca una comisión.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h2>Guías y consejos</h2>
-<p>En el <a href="blog/">blog</a> publicamos guías prácticas y sin humo:
-   <a href="blog/vuelos-baratos-aeropuerto-pequeno.html">volar barato desde un aeropuerto pequeño</a>,
-   <a href="blog/checklist-antes-de-reservar.html">qué revisar antes de reservar</a>,
-   <a href="blog/alquilar-coche-sin-sustos.html">alquilar coche sin sustos</a> y
-   <a href="blog/por-que-cambian-los-precios.html">por qué cambian los precios de los vuelos</a>.</p>
+<section class="seccion">
+  <div class="contenedor">
+    <div class="etiqueta-seccion">Todo el viaje</div>
+    <h2>No solo vuelos</h2>
+    <div class="rejilla" style="margin-top: 1.5rem;">
+      <div class="tarjeta revelar">
+        <span class="icono">🎟️</span>
+        <h3>Actividades y experiencias</h3>
+        <p>Entradas, tours y planes en tu destino, con opiniones y reserva online.</p>
+        <div id="klook-widget"></div>
+        <script async src="https://tpwidg.com/content?currency=EUR&trs=549905&shmarker=750513&locale=es&city_id=108&category=2&amount=3&powered_by=true&campaign_id=137"></script>
+        <a class="enlace" href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">Ver todas las actividades en Klook →</a>
+      </div>
+      <div class="tarjeta revelar" id="coches">
+        <span class="icono">🚗</span>
+        <h3>Coches de alquiler</h3>
+        <p>Compara precios de varias compañías. Antes de reservar, léete nuestra <a href="blog/alquilar-coche-sin-sustos.html">guía sin sustos</a>.</p>
+        <script src="https://tp.media/content?campaign_id=222&promo_id=8813&shmarker=750513&trs=549905" charset="utf-8"></script>
+        <a class="enlace" href="https://getrentacar.tpm.lv/NHNxZ9Do" target="_blank" rel="noopener">Comparar coches en GetRentacar →</a>
+      </div>
+      <div class="tarjeta revelar">
+        <span class="icono">🏨</span>
+        <h3>Alojamiento</h3>
+        <p>Estamos activando Booking.com, Agoda y Trip.com para ofrecer también hoteles y apartamentos — muy pronto en esta sección.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h2>Alojamiento</h2>
-<div class="tarjeta pendiente">
-  <p>Estamos activando Booking.com y Trip.com para poder ofrecer también alojamiento — vuelve pronto.</p>
-</div>
+<section class="seccion">
+  <div class="contenedor">
+    <div class="etiqueta-seccion">Guías y consejos</div>
+    <h2>Del blog</h2>
+    <div class="rejilla" style="margin-top: 1.5rem;">
+      <a class="tarjeta blog-tarjeta revelar" href="blog/vuelos-baratos-aeropuerto-pequeno.html">
+        <div class="cabecera-post g1">🛫</div>
+        <div class="fecha">30 de julio de 2026</div>
+        <h3>Vuelos baratos desde un aeropuerto pequeño</h3>
+        <p>Las reglas propias de volar barato desde Santander o cualquier regional.</p>
+      </a>
+      <a class="tarjeta blog-tarjeta revelar" href="blog/checklist-antes-de-reservar.html">
+        <div class="cabecera-post g2">✅</div>
+        <div class="fecha">30 de julio de 2026</div>
+        <h3>Checklist antes de reservar</h3>
+        <p>Siete comprobaciones para que lo barato no salga caro.</p>
+      </a>
+      <a class="tarjeta blog-tarjeta revelar" href="blog/alquilar-coche-sin-sustos.html">
+        <div class="cabecera-post g5">🔑</div>
+        <div class="fecha">30 de julio de 2026</div>
+        <h3>Alquilar coche sin sustos</h3>
+        <p>Franquicia, depósitos y seguros explicados de una vez.</p>
+      </a>
+      <a class="tarjeta blog-tarjeta revelar" href="blog/por-que-cambian-los-precios.html">
+        <div class="cabecera-post g3">📈</div>
+        <div class="fecha">30 de julio de 2026</div>
+        <h3>Por qué cambian los precios</h3>
+        <p>El precio dinámico de las aerolíneas, explicado sin misterio.</p>
+      </a>
+    </div>
+  </div>
+</section>
 
-<h2>Actividades y experiencias</h2>
-<div id="klook-widget"></div>
-<script async src="https://tpwidg.com/content?currency=EUR&trs=549905&shmarker=750513&locale=es&city_id=108&category=2&amount=3&powered_by=true&campaign_id=137"></script>
-<p><a href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">Ver todas las actividades y entradas en Klook →</a></p>
+<section class="seccion">
+  <div class="contenedor">
+    <div class="banda revelar">
+      <div>
+        <span class="icono">📡</span>
+        <h3>Datos en vivo</h3>
+        <p>Los precios se consultan en el momento en que cargas la página, no son medias ni estimaciones de temporada.</p>
+      </div>
+      <div>
+        <span class="icono">🧭</span>
+        <h3>Sin marcas patrocinadas</h3>
+        <p>Los resultados se ordenan solo por precio. Ninguna aerolínea ni agencia paga por aparecer mejor colocada.</p>
+      </div>
+      <div>
+        <span class="icono">👋</span>
+        <h3>Proyecto independiente</h3>
+        <p>Esto no es una gran OTA: es un proyecto personal, transparente con <a href="sobre.html" style="color: inherit;">cómo funciona y cómo se financia</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h2 id="coches">Coches de alquiler</h2>
-<script src="https://tp.media/content?campaign_id=222&promo_id=8813&shmarker=750513&trs=549905" charset="utf-8"></script>
-<p><a href="https://getrentacar.tpm.lv/NHNxZ9Do" target="_blank" rel="noopener">Comparar coches de alquiler en GetRentacar →</a></p>
-
-<footer>
-  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través
-  de los enlaces de esta página, sin coste adicional para ti.
-  <br><br>
-  <a href="sobre.html">Sobre este sitio</a> · <a href="privacidad.html">Privacidad y cookies</a>
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-columnas">
+      <div>
+        <h4>Buscar</h4>
+        <ul>
+          <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
+          <li><a href="explorar.html">Explorar destinos</a></li>
+          <li><a href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">Actividades</a></li>
+          <li><a href="https://getrentacar.tpm.lv/NHNxZ9Do" target="_blank" rel="noopener">Coches de alquiler</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vuelos por ciudad</h4>
+        <ul>
+          <li><a href="vuelos-desde/santander.html">Desde Santander</a></li>
+          <li><a href="vuelos-desde/bilbao.html">Desde Bilbao</a></li>
+          <li><a href="vuelos-desde/madrid.html">Desde Madrid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guías</h4>
+        <ul>
+          <li><a href="blog/">Todas las guías</a></li>
+          <li><a href="blog/vuelos-baratos-aeropuerto-pequeno.html">Aeropuertos pequeños</a></li>
+          <li><a href="blog/checklist-antes-de-reservar.html">Checklist de reserva</a></li>
+          <li><a href="blog/alquilar-coche-sin-sustos.html">Coches sin sustos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <ul>
+          <li><a href="sobre.html">Sobre este sitio</a></li>
+          <li><a href="privacidad.html">Privacidad y cookies</a></li>
+          <li><a href="mailto:hola@inteligenciaconia.com">hola@inteligenciaconia.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso">
+      Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través
+      de los enlaces de esta página, sin coste adicional para ti. Los precios mostrados son de referencia
+      y el precio final es siempre el de la web donde reserves.
+    </div>
+  </div>
 </footer>
+
+<script src="js/aeropuertos.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/carrusel-vivo.js"></script>
+<script>
+  // El video del hero solo se carga en pantallas grandes y sin reduccion de movimiento;
+  // en movil se queda el poster (misma escena, 140 KB frente a 15 MB).
+  (function () {
+    var video = document.getElementById('hero-video');
+    if (!video) return;
+    var quiereVideo = window.matchMedia('(min-width: 768px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!quiereVideo) return;
+    var source = document.createElement('source');
+    source.src = 'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4';
+    source.type = 'video/mp4';
+    video.appendChild(source);
+    video.load();
+    var reproducir = video.play();
+    if (reproducir && reproducir.catch) reproducir.catch(function () { /* el poster se queda */ });
+  })();
+</script>
 
 </body>
 </html>

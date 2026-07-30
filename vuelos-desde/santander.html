@@ -53,62 +53,51 @@
   ]
 }
 </script>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/estilo.css">
 <style>
-  :root { color-scheme: light dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-    line-height: 1.6;
-  }
-  nav.migas { font-size: 0.85rem; color: #888; margin-bottom: 1.5rem; }
-  nav.migas a { color: #1a73e8; text-decoration: none; }
-  h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-  h2 { font-size: 1.15rem; margin: 2rem 0 0.75rem; }
-  h3 { font-size: 1rem; margin: 1.5rem 0 0.4rem; }
-  #vivo {
-    margin: 1.5rem 0;
-    padding: 1.25rem;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-  }
-  #vivo-estado { color: #888; font-style: italic; }
   #vivo-resultados {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
   }
-  .destino {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 0.75rem;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    font-size: 0.9rem;
-  }
-  .destino:hover { border-color: #1a73e8; }
-  .destino .ciudad { font-weight: 600; }
-  .destino .precio { font-size: 1.1rem; font-weight: 700; color: #1a73e8; margin-top: 0.25rem; }
-  .cta { margin-top: 1rem; font-size: 0.9rem; }
-  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
 </style>
 </head>
 <body>
 
-<nav class="migas"><a href="../index.html">Inicio</a> → Vuelos baratos desde Santander</nav>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="marca" href="../index.html"><span class="avion">✈</span>inteligenciaconia</a>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="../explorar.html">Explorar destinos</a>
+      <a href="santander.html">Santander</a>
+      <a href="bilbao.html">Bilbao</a>
+      <a href="madrid.html">Madrid</a>
+      <a href="../blog/">Blog</a>
+      <a class="destacado" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+    </div>
+  </div>
+</nav>
 
-<h1>Vuelos baratos desde Santander (SDR)</h1>
+<main class="contenedor-estrecho articulo">
+
+<div class="migas"><a href="../index.html">Inicio</a> → Vuelos baratos desde Santander</div>
+
+<div class="cabecera-ciudad g1">
+  <span class="bandera-grande">🌊</span>
+  <h1>Vuelos baratos desde Santander (SDR)</h1>
+</div>
 
 <p>Esta página muestra los vuelos más baratos disponibles ahora mismo desde el aeropuerto Seve Ballesteros de Santander (SDR), con precios consultados en directo a través de la API de Travelpayouts en el momento de tu visita. No son estimaciones de temporada ni medias históricas: son tarifas reales que las aerolíneas tienen publicadas hoy para cada ruta.</p>
 
-<div id="vivo">
-  <div id="vivo-estado">Cargando precios en directo…</div>
+<div class="panel-vivo">
+  <div class="titulo-vivo"><span class="punto"></span>Precios en directo</div>
+  <div id="vivo-estado" class="estado-carrusel">Cargando precios en directo…</div>
   <div id="vivo-resultados"></div>
-  <p class="cta"><a href="../explorar.html">Elegir otro mes o comparar desde otra ciudad →</a></p>
+  <p style="margin-bottom: 0; margin-top: 1rem;"><a href="../explorar.html">Elegir otro mes o comparar desde otra ciudad →</a></p>
 </div>
 
 <h2>Volar desde el aeropuerto de Santander (Seve Ballesteros)</h2>
@@ -136,14 +125,45 @@
 <h3>¿Los precios de esta página son reales o son una estimación?</h3>
 <p>Son datos reales: esta página consulta en directo la API de Travelpayouts en el momento de la visita, no utiliza precios medios ni estimaciones fijas de temporada. Los importes que ves corresponden a tarifas que las aerolíneas tienen publicadas para esa ruta en ese momento concreto.</p>
 
-<footer>
-  Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
-  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
-  sin coste adicional para ti.
-  <br><br>
-  <a href="../sobre.html">Sobre este sitio</a> · <a href="../privacidad.html">Privacidad y cookies</a>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-columnas">
+      <div>
+        <h4>Buscar</h4>
+        <ul>
+          <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
+          <li><a href="../explorar.html">Explorar destinos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vuelos por ciudad</h4>
+        <ul>
+          <li><a href="santander.html">Desde Santander</a></li>
+          <li><a href="bilbao.html">Desde Bilbao</a></li>
+          <li><a href="madrid.html">Desde Madrid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <ul>
+          <li><a href="../blog/">Blog</a></li>
+          <li><a href="../sobre.html">Sobre este sitio</a></li>
+          <li><a href="../privacidad.html">Privacidad y cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso">
+      Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+      Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+      sin coste adicional para ti.
+    </div>
+  </div>
 </footer>
 
+<script src="../js/aeropuertos.js"></script>
+<script src="../js/ui.js"></script>
 <script src="../js/ciudad-vivo.js" data-origin="SDR"></script>
 
 </body>
