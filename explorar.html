@@ -10,93 +10,67 @@
 <meta property="og:description" content="Escribe cualquier ciudad de origen y un mes: te mostramos el precio más barato encontrado a cada destino, en vivo.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inteligenciaconia.com/explorar.html">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
 <style>
-  :root { color-scheme: light dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-    line-height: 1.5;
-  }
-  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
-  p.subtitle { color: #666; margin-top: 0; }
-  nav.volver { margin-bottom: 1.5rem; }
-  nav.volver a { color: #1a73e8; text-decoration: none; font-size: 0.9rem; }
-
   #controles {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     align-items: end;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0.75rem;
     padding: 1.25rem;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
   }
-  #controles label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.25rem; }
-  #controles select, #controles input, #controles button {
-    padding: 0.6rem 0.9rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+  #controles label { display: block; font-size: 0.85rem; color: var(--tinta-suave); margin-bottom: 0.25rem; }
+  #controles select, #controles input {
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--borde);
     font-size: 1rem;
+    background: var(--papel);
+    color: var(--tinta);
   }
-  #controles input { width: 220px; }
-  #controles button {
-    background: #1a73e8;
-    color: #fff;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  #controles button:hover { background: #1558b0; }
-  #controles button:disabled { background: #99b8e6; cursor: default; }
-
-  #origenes-rapidos { display: flex; gap: 0.5rem; margin: -0.75rem 0 1.5rem; }
-  #origenes-rapidos button {
-    background: #eef3fc;
-    color: #1a73e8;
-    border: 1px solid #cddcf7;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  #origenes-rapidos button:hover { background: #dce8fb; }
-
-  #estado { color: #888; font-style: italic; margin: 1rem 0; }
-
+  #controles input { width: 230px; }
+  #controles input:focus, #controles select:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
+  #estado { color: var(--tinta-suave); font-style: italic; margin: 1rem 0; }
   #resultados {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
   }
-  .destino {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 1rem;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .destino:hover { border-color: #1a73e8; }
-  .destino .ciudad { font-weight: 600; margin-bottom: 0.25rem; }
-  .destino .codigo { color: #888; font-size: 0.85rem; }
-  .destino .precio { font-size: 1.3rem; font-weight: 700; color: #1a73e8; margin-top: 0.5rem; }
-  .destino .fecha { font-size: 0.8rem; color: #888; margin-top: 0.25rem; }
-
-  footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
 </style>
 </head>
 <body>
 
-<nav class="volver"><a href="index.html">← Volver</a></nav>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="marca" href="index.html"><span class="avion">✈</span>inteligenciaconia</a>
+    <button class="nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="explorar.html">Explorar destinos</a>
+      <a href="vuelos-desde/santander.html">Santander</a>
+      <a href="vuelos-desde/bilbao.html">Bilbao</a>
+      <a href="vuelos-desde/madrid.html">Madrid</a>
+      <a href="blog/">Blog</a>
+      <a class="destacado" href="https://vuelos.inteligenciaconia.com">Buscar vuelos</a>
+    </div>
+  </div>
+</nav>
 
-<h1>¿A dónde es barato volar?</h1>
-<p class="subtitle">Escribe cualquier ciudad de origen y elige un mes: te mostramos el precio más barato encontrado a cada destino.</p>
+<main class="contenedor">
+
+<div class="migas"><a href="index.html">Inicio</a> → Explorar destinos</div>
+
+<div class="etiqueta-seccion">Explorador</div>
+<h1 class="titulo" style="font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 0.4rem;">¿A dónde es barato volar?</h1>
+<p style="color: var(--tinta-suave); max-width: 60ch; margin-top: 0;">Escribe cualquier ciudad de origen y elige un mes: te mostramos el precio más barato encontrado a cada destino, con datos en vivo.</p>
 
 <div id="controles">
   <div>
@@ -108,42 +82,64 @@
     <label for="mes">Mes</label>
     <select id="mes"></select>
   </div>
-  <button id="buscar">Buscar destinos</button>
+  <button class="boton boton-primario" id="buscar">Buscar destinos</button>
 </div>
 
-<div id="origenes-rapidos">
-  <button type="button" data-origen="Santander (SDR)">Santander</button>
-  <button type="button" data-origen="Bilbao (BIO)">Bilbao</button>
-  <button type="button" data-origen="Madrid (MAD)">Madrid</button>
+<div class="tabs" id="origenes-rapidos" style="margin-bottom: 1.25rem;">
+  <button class="tab" type="button" data-origen="Santander (SDR)">Santander</button>
+  <button class="tab" type="button" data-origen="Bilbao (BIO)">Bilbao</button>
+  <button class="tab" type="button" data-origen="Madrid (MAD)">Madrid</button>
 </div>
 
 <div id="estado"></div>
 <div id="resultados"></div>
 
-<footer>
-  Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
-  Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
-  sin coste adicional para ti.
-  <br><br>
-  <a href="sobre.html">Sobre este sitio</a> · <a href="privacidad.html">Privacidad y cookies</a>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-columnas">
+      <div>
+        <h4>Buscar</h4>
+        <ul>
+          <li><a href="https://vuelos.inteligenciaconia.com">Buscador de vuelos</a></li>
+          <li><a href="explorar.html">Explorar destinos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vuelos por ciudad</h4>
+        <ul>
+          <li><a href="vuelos-desde/santander.html">Desde Santander</a></li>
+          <li><a href="vuelos-desde/bilbao.html">Desde Bilbao</a></li>
+          <li><a href="vuelos-desde/madrid.html">Desde Madrid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <ul>
+          <li><a href="blog/">Blog</a></li>
+          <li><a href="sobre.html">Sobre este sitio</a></li>
+          <li><a href="privacidad.html">Privacidad y cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso">
+      Precios de referencia obtenidos de búsquedas recientes de otros usuarios; pueden no reflejar el precio actual.
+      Este sitio puede recibir una comisión de las agencias de viaje enlazadas cuando reservas a través de esta página,
+      sin coste adicional para ti.
+    </div>
+  </div>
 </footer>
 
+<script src="js/aeropuertos.js"></script>
+<script src="js/ui.js"></script>
 <script>
-  const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
-  const AIRPORTS_CACHE_KEY = 'airports_cache_v2';
-  const AIRPORTS_CACHE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
-
   const mesSelect = document.getElementById('mes');
   const origenInput = document.getElementById('origen');
   const buscarBtn = document.getElementById('buscar');
   const estadoDiv = document.getElementById('estado');
   const resultadosDiv = document.getElementById('resultados');
-
-  let airportsCache = null;
-  async function getAirportsCached() {
-    if (!airportsCache) airportsCache = await getAirports();
-    return airportsCache;
-  }
+  const WORKER_URL = 'https://api.inteligenciaconia.com/destinos';
 
   const NOMBRES_MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
@@ -157,19 +153,6 @@
       opt.textContent = `${NOMBRES_MES[d.getMonth()]} ${d.getFullYear()}`;
       mesSelect.appendChild(opt);
     }
-  }
-
-  async function getAirports() {
-    try {
-      const cached = JSON.parse(localStorage.getItem(AIRPORTS_CACHE_KEY) || 'null');
-      if (cached && Array.isArray(cached.airports) && Date.now() - cached.t < AIRPORTS_CACHE_MAX_AGE_MS) return cached.airports;
-    } catch (e) { /* cache invalida, seguimos y la regeneramos */ }
-
-    const r = await fetch('https://api.travelpayouts.com/data/en/airports.json');
-    const raw = await r.json();
-    const airports = raw.filter((a) => a.code && a.flightable).map((a) => ({ code: a.code, name: a.name || a.code }));
-    try { localStorage.setItem(AIRPORTS_CACHE_KEY, JSON.stringify({ t: Date.now(), airports })); } catch (e) { /* localStorage lleno, no pasa nada */ }
-    return airports;
   }
 
   function etiquetaAeropuerto(a) {
@@ -201,35 +184,27 @@
     });
   }
 
-  function fmtFecha(iso) {
-    if (!iso) return '';
-    const d = new Date(iso);
-    if (isNaN(d)) return '';
-    return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  }
-
-  function deepLink(origin, dest, departureAt) {
-    const m = /^\d{4}-(\d{2})-(\d{2})/.exec(departureAt || '');
-    if (!m) return 'https://vuelos.inteligenciaconia.com';
-    return `https://vuelos.inteligenciaconia.com/flights/${origin}${m[2]}${m[1]}${dest}1`;
+  function fechaCorta(iso) {
+    const m = /^\d{4}-(\d{2})-(\d{2})/.exec(iso || '');
+    return m ? `${m[2]}/${m[1]}` : '';
   }
 
   async function buscar() {
     const month = mesSelect.value;
     buscarBtn.disabled = true;
     resultadosDiv.innerHTML = '';
-    estadoDiv.textContent = 'Buscando destinos...';
+    estadoDiv.textContent = 'Buscando destinos…';
 
     try {
-      const airports = await getAirportsCached();
+      const airports = await IC.getAirports();
       const origin = resolverOrigen(origenInput.value, airports);
       if (!origin) {
         estadoDiv.textContent = 'No reconozco ese origen. Elige una ciudad de la lista mientras escribes.';
         return;
       }
 
-      const names = {};
-      for (const a of airports) names[a.code] = a.name;
+      const porCodigo = {};
+      for (const a of airports) porCodigo[a.code] = a;
 
       const payload = await fetch(`${WORKER_URL}?origin=${origin}&month=${month}`).then((r) => r.json());
       if (payload.error) throw new Error(payload.error);
@@ -242,16 +217,17 @@
 
       estadoDiv.textContent = `${resultados.length} destino(s) encontrado(s), ordenados de más barato a más caro:`;
       for (const r of resultados) {
+        const info = porCodigo[r.destination] || {};
         const a = document.createElement('a');
-        a.className = 'destino';
-        a.href = deepLink(origin, r.destination, r.departure_at);
+        a.className = `destino-tarjeta ${IC.gradiente(r.destination)}`;
+        a.href = IC.deepLink(origin, r.destination, r.departure_at);
         a.target = '_blank';
         a.rel = 'noopener';
         a.innerHTML = `
-          <div class="ciudad">${names[r.destination] || r.destination}</div>
-          <div class="codigo">${r.destination}</div>
-          <div class="precio">${Math.round(r.price)} €</div>
-          <div class="fecha">${fmtFecha(r.departure_at)}</div>
+          <span class="bandera">${IC.bandera(info.country)}</span>
+          <span class="ciudad">${IC.nombreCorto(info.name) || r.destination}</span>
+          <span class="fecha">salida ${fechaCorta(r.departure_at)} · ${r.destination}</span>
+          <span class="precio">${Math.round(r.price)} €</span>
         `;
         resultadosDiv.appendChild(a);
       }
@@ -262,18 +238,15 @@
     }
   }
 
-  function initOrigenesRapidos() {
-    document.querySelectorAll('#origenes-rapidos button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        origenInput.value = btn.dataset.origen;
-        buscar();
-      });
+  document.querySelectorAll('#origenes-rapidos .tab').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      origenInput.value = btn.dataset.origen;
+      buscar();
     });
-  }
+  });
 
   initMeses();
-  initOrigenesRapidos();
-  getAirportsCached().then(initAutocompletadoOrigen);
+  IC.getAirports().then(initAutocompletadoOrigen);
   buscarBtn.addEventListener('click', buscar);
 </script>
 
