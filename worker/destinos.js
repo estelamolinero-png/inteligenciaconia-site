@@ -2,13 +2,14 @@
 //
 // Rutas:
 //   GET  /destinos?origin=SDR&month=YYYY-MM  -> precio mas barato por destino en ese mes
-//   POST /organiza  {origen, mes, texto}     -> recomendaciones de viaje con Claude
+//   POST /organiza  {origen, mes, texto}     -> recomendaciones de viaje con IA
 //
 // Despliegue: pegar este archivo tal cual en el editor del Worker en el
 // dashboard de Cloudflare. Secretos en Settings > Variables and Secrets:
 //   TRAVELPAYOUTS_TOKEN (tipo "Secret")  -> obligatorio
-//   ANTHROPIC_API_KEY   (tipo "Secret")  -> necesario solo para /organiza
-//   CLAUDE_MODEL        (tipo "Text")    -> opcional; por defecto claude-haiku-4-5
+//   OPENROUTER_API_KEY  (tipo "Secret")  -> para /organiza (modelo gratuito)
+//   OPENROUTER_MODEL    (tipo "Text")    -> opcional; por defecto openai/gpt-oss-20b:free
+//   ANTHROPIC_API_KEY   (tipo "Secret")  -> alternativa a OpenRouter (Claude, de pago)
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -127,8 +128,58 @@ function mesSiguiente(mes) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 }
 
+async function llamarIA(prompt, env) {
+  // OpenRouter con modelo gratuito por defecto; Anthropic como alternativa.
+  if (env.OPENROUTER_API_KEY) {
+    const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+        'HTTP-Referer': 'https://inteligenciaconia.com',
+        'X-Title': 'inteligenciaconia',
+      },
+      body: JSON.stringify({
+        model: env.OPENROUTER_MODEL || 'openai/gpt-oss-20b:free',
+        max_tokens: 1400,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    if (!resp.ok) throw new Error(`el servicio de IA respondio ${resp.status}`);
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: env.CLAUDE_MODEL || 'claude-haiku-4-5',
+      max_tokens: 1400,
+      output_config: { format: { type: 'json_schema', schema: ESQUEMA_PLAN } },
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+  if (!resp.ok) throw new Error(`el servicio de IA respondio ${resp.status}`);
+  const mensaje = await resp.json();
+  const bloque = (mensaje.content || []).find((b) => b.type === 'text');
+  return bloque ? bloque.text : '';
+}
+
+function extraerJSON(texto) {
+  const limpio = String(texto).replace(/```json|```/g, '');
+  const ini = limpio.indexOf('{');
+  const fin = limpio.lastIndexOf('}');
+  if (ini === -1 || fin <= ini) throw new Error('respuesta sin JSON');
+  return JSON.parse(limpio.slice(ini, fin + 1));
+}
+
 async function manejarOrganiza(request, env) {
-  // Solo se acepta desde el propio sitio: el endpoint gasta creditos de IA.
+  // Solo se acepta desde el propio sitio: el endpoint consume cuota de IA.
   const origenPeticion = request.headers.get('Origin') || '';
   const permitido =
     origenPeticion === 'https://inteligenciaconia.com' ||
@@ -139,9 +190,9 @@ async function manejarOrganiza(request, env) {
     return new Response(JSON.stringify({ error: 'Origen no permitido.' }), { status: 403, headers: CORS_HEADERS });
   }
 
-  if (!env.ANTHROPIC_API_KEY) {
+  if (!env.OPENROUTER_API_KEY && !env.ANTHROPIC_API_KEY) {
     return new Response(
-      JSON.stringify({ error: 'El organizador aun no esta activado: falta configurar ANTHROPIC_API_KEY en el Worker.' }),
+      JSON.stringify({ error: 'El organizador aun no esta activado: falta configurar OPENROUTER_API_KEY en el Worker.' }),
       { status: 503, headers: CORS_HEADERS }
     );
   }
@@ -188,8 +239,8 @@ async function manejarOrganiza(request, env) {
     );
   }
 
-  const listaVuelos = vuelos
-    .slice(0, 40)
+  const candidatos = vuelos.slice(0, 40);
+  const listaVuelos = candidatos
     .map((v) => `${v.destination} ${Math.round(v.price)}€ ida ${String(v.departure_at).slice(0, 10)} vuelta ${String(v.return_at || '').slice(0, 10)}`)
     .join('\n');
 
@@ -203,52 +254,57 @@ async function manejarOrganiza(request, env) {
     `- "motivo": 1-2 frases de por que encaja con su peticion.\n` +
     `- "plan": exactamente 3 ideas breves y concretas para ese destino (lugares, comida, ambiente), adaptadas a la peticion.\n` +
     `- "consejo": un consejo practico de reserva en una sola frase.\n` +
-    `- Si nada encaja bien, elige lo mas cercano y dilo con honestidad en el motivo.`;
+    `- Si nada encaja bien, elige lo mas cercano y dilo con honestidad en el motivo.\n\n` +
+    `Responde UNICAMENTE con un objeto JSON valido, sin texto adicional ni markdown, con esta forma exacta:\n` +
+    `{"recomendaciones":[{"codigo":"BCN","ciudad":"Barcelona","precio":128,"fecha_ida":"2026-09-15","fecha_vuelta":"2026-09-22","motivo":"...","plan":["...","...","..."]}],"consejo":"..."}`;
 
-  let respuestaIA;
-  try {
-    respuestaIA = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: env.CLAUDE_MODEL || 'claude-haiku-4-5',
-        max_tokens: 1400,
-        output_config: { format: { type: 'json_schema', schema: ESQUEMA_PLAN } },
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: 'No se pudo contactar con el servicio de IA.' }), { status: 502, headers: CORS_HEADERS });
+  // Los modelos gratuitos fallan a veces al devolver JSON: un reintento basta
+  // casi siempre. El precio y las fechas se re-imponen luego desde los datos
+  // reales, asi que el modelo solo puede elegir y redactar, no inventar cifras.
+  let plan = null;
+  for (let intento = 0; intento < 2 && !plan; intento++) {
+    try {
+      plan = extraerJSON(await llamarIA(prompt, env));
+    } catch (err) {
+      plan = null;
+    }
   }
-
-  if (!respuestaIA.ok) {
+  if (!plan || !Array.isArray(plan.recomendaciones)) {
     return new Response(
-      JSON.stringify({ error: `El servicio de IA respondio con error ${respuestaIA.status}.` }),
+      JSON.stringify({ error: 'La IA no ha podido montar el plan ahora mismo. Vuelve a intentarlo en unos segundos.' }),
       { status: 502, headers: CORS_HEADERS }
     );
   }
 
-  const mensaje = await respuestaIA.json();
-  if (mensaje.stop_reason === 'refusal') {
+  const porCodigo = {};
+  for (const v of candidatos) porCodigo[v.destination] = v;
+  const recomendaciones = plan.recomendaciones
+    .filter((r) => r && porCodigo[String(r.codigo || '').toUpperCase()])
+    .slice(0, 3)
+    .map((r) => {
+      const real = porCodigo[String(r.codigo).toUpperCase()];
+      return {
+        codigo: String(r.codigo).toUpperCase(),
+        ciudad: String(r.ciudad || r.codigo),
+        precio: Math.round(real.price),
+        fecha_ida: String(real.departure_at).slice(0, 10),
+        fecha_vuelta: String(real.return_at || '').slice(0, 10),
+        motivo: String(r.motivo || ''),
+        plan: Array.isArray(r.plan) ? r.plan.slice(0, 3).map(String) : [],
+      };
+    });
+
+  if (recomendaciones.length === 0) {
     return new Response(
-      JSON.stringify({ error: 'La IA no puede ayudar con esa peticion. Prueba a describir el viaje de otra forma.' }),
-      { status: 422, headers: CORS_HEADERS }
+      JSON.stringify({ error: 'La IA no ha encontrado nada que encaje con vuelos reales. Prueba otro mes u otra descripcion.' }),
+      { status: 404, headers: CORS_HEADERS }
     );
   }
 
-  const bloqueTexto = (mensaje.content || []).find((b) => b.type === 'text');
-  let plan;
-  try {
-    plan = JSON.parse(bloqueTexto.text);
-  } catch (e) {
-    return new Response(JSON.stringify({ error: 'La IA devolvio una respuesta ilegible. Intentalo de nuevo.' }), { status: 502, headers: CORS_HEADERS });
-  }
-
-  return new Response(JSON.stringify({ origen, mes, ...plan }), { headers: CORS_HEADERS });
+  return new Response(
+    JSON.stringify({ origen, mes, recomendaciones, consejo: String(plan.consejo || '') }),
+    { headers: CORS_HEADERS }
+  );
 }
 
 export default {
