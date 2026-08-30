@@ -266,6 +266,7 @@ async function manejarOrganiza(request, env) {
     try {
       plan = extraerJSON(await llamarIA(prompt, env));
     } catch (err) {
+      console.error(`/organiza intento ${intento + 1}: ${err.message}`);
       plan = null;
     }
   }
