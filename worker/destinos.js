@@ -11,12 +11,37 @@
 //   OPENROUTER_MODEL    (tipo "Text")    -> opcional; por defecto openai/gpt-oss-20b:free
 //   ANTHROPIC_API_KEY   (tipo "Secret")  -> alternativa a OpenRouter (Claude, de pago)
 
+// El Access-Control-Allow-Origin definitivo lo pone el fetch de abajo segun el
+// Origin de cada peticion; las respuestas cacheadas no dependen de el.
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://inteligenciaconia.com',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Content-Type': 'application/json; charset=utf-8',
+  Vary: 'Origin',
 };
+
+function origenPermitido(origen) {
+  return (
+    origen === 'https://inteligenciaconia.com' ||
+    origen === 'https://www.inteligenciaconia.com' ||
+    /^http:\/\/localhost(:\d+)?$/.test(origen) ||
+    /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origen)
+  );
+}
+
+// Meses que puede pedir la web: el explorador y el organizador ofrecen el mes
+// actual y los 7 siguientes, y los carruseles el actual y el siguiente. Se
+// cuenta desde un mes antes porque el mes del visitante puede ir por delante
+// del de UTC en el cambio de mes.
+function mesPermitido(mes) {
+  const hoy = new Date();
+  for (let i = -1; i <= 8; i++) {
+    const d = new Date(Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth() + i, 1));
+    if (mes === `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`) return true;
+  }
+  return false;
+}
 
 function cheapestOffer(entry) {
   if (entry && typeof entry === 'object' && 'price' in entry) return entry;
@@ -62,9 +87,18 @@ async function manejarDestinos(url, env, ctx) {
   const origin = (url.searchParams.get('origin') || 'SDR').toUpperCase();
   const month = url.searchParams.get('month') || '';
 
-  if (!/^\d{4}-\d{2}$/.test(month)) {
+  // Cada combinacion nueva de origen y mes se salta la cache y gasta hasta
+  // MAX_PAGES llamadas con el token: solo se aceptan las que pide la web.
+  if (!/^[A-Z]{3}$/.test(origin)) {
     return new Response(
-      JSON.stringify({ error: 'Parametro "month" invalido (usa formato YYYY-MM).' }),
+      JSON.stringify({ error: 'Parametro "origin" invalido (usa un codigo IATA de 3 letras).' }),
+      { status: 400, headers: CORS_HEADERS }
+    );
+  }
+
+  if (!mesPermitido(month)) {
+    return new Response(
+      JSON.stringify({ error: 'Parametro "month" invalido (usa formato YYYY-MM, entre este mes y los 8 siguientes).' }),
       { status: 400, headers: CORS_HEADERS }
     );
   }
@@ -180,13 +214,7 @@ function extraerJSON(texto) {
 
 async function manejarOrganiza(request, env) {
   // Solo se acepta desde el propio sitio: el endpoint consume cuota de IA.
-  const origenPeticion = request.headers.get('Origin') || '';
-  const permitido =
-    origenPeticion === 'https://inteligenciaconia.com' ||
-    origenPeticion === 'https://www.inteligenciaconia.com' ||
-    /^http:\/\/localhost(:\d+)?$/.test(origenPeticion) ||
-    /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origenPeticion);
-  if (!permitido) {
+  if (!origenPermitido(request.headers.get('Origin') || '')) {
     return new Response(JSON.stringify({ error: 'Origen no permitido.' }), { status: 403, headers: CORS_HEADERS });
   }
 
@@ -308,20 +336,30 @@ async function manejarOrganiza(request, env) {
   );
 }
 
+async function responder(request, env, ctx) {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: CORS_HEADERS });
+  }
+
+  const url = new URL(request.url);
+  if (url.pathname.endsWith('/organiza')) {
+    if (request.method !== 'POST') {
+      return new Response(JSON.stringify({ error: 'Usa POST.' }), { status: 405, headers: CORS_HEADERS });
+    }
+    return manejarOrganiza(request, env);
+  }
+
+  return manejarDestinos(url, env, ctx);
+}
+
 export default {
   async fetch(request, env, ctx) {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: CORS_HEADERS });
-    }
-
-    const url = new URL(request.url);
-    if (url.pathname.endsWith('/organiza')) {
-      if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Usa POST.' }), { status: 405, headers: CORS_HEADERS });
-      }
-      return manejarOrganiza(request, env);
-    }
-
-    return manejarDestinos(url, env, ctx);
+    const respuesta = await responder(request, env, ctx);
+    const origen = request.headers.get('Origin') || '';
+    if (!origenPermitido(origen)) return respuesta;
+    // Copia mutable: las cabeceras de una respuesta sacada de la cache no se pueden tocar.
+    const conCors = new Response(respuesta.body, respuesta);
+    conCors.headers.set('Access-Control-Allow-Origin', origen);
+    return conCors;
   },
 };
