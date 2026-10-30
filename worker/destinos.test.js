@@ -173,6 +173,9 @@ test('el CORS solo autoriza a la web propia, no a cualquier origen', async () =>
     const propia = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`), ENV, CTX);
     assert.equal(propia.headers.get('Access-Control-Allow-Origin'), 'https://inteligenciaconia.com');
 
+    const www = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`, 'https://www.inteligenciaconia.com'), ENV, CTX);
+    assert.equal(www.headers.get('Access-Control-Allow-Origin'), 'https://www.inteligenciaconia.com');
+
     const ajena = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`, 'https://ajena.example'), ENV, CTX);
     assert.notEqual(ajena.headers.get('Access-Control-Allow-Origin'), '*');
     assert.notEqual(ajena.headers.get('Access-Control-Allow-Origin'), 'https://ajena.example');
