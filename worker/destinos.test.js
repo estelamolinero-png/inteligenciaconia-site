@@ -98,3 +98,88 @@ test('cuando la IA responde bien, el plan sale y no se registra ningún error', 
     entorno.restaurar();
   }
 });
+
+// ── /destinos: cada combinación nueva de origen y mes se salta la caché y
+// gasta hasta cinco llamadas con el token, así que solo se aceptan las que
+// puede pedir la web: un código IATA y un mes de los que ofrece el front.
+
+function mesDesde(desplazamiento) {
+  const hoy = new Date();
+  const d = new Date(Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth() + desplazamiento, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
+
+function peticionDestinos(consulta, origin = 'https://inteligenciaconia.com') {
+  return new Request(`https://api.inteligenciaconia.com/destinos?${consulta}`, { headers: { Origin: origin } });
+}
+
+// Falsea la caché del edge y la red; cuenta las llamadas a Travelpayouts.
+function conCacheYRedFalsas() {
+  const originalFetch = globalThis.fetch;
+  const originalCaches = globalThis.caches;
+  const llamadas = [];
+  globalThis.caches = { default: { match: async () => undefined, put: async () => {} } };
+  globalThis.fetch = (url) => {
+    llamadas.push(String(url));
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ data: VUELOS }) });
+  };
+  return {
+    llamadas,
+    restaurar: () => { globalThis.fetch = originalFetch; globalThis.caches = originalCaches; },
+  };
+}
+
+test('/destinos acepta un código IATA y los meses que ofrece el explorador', async () => {
+  const red = conCacheYRedFalsas();
+  try {
+    for (const mes of [mesDesde(0), mesDesde(7)]) {
+      const resp = await worker.fetch(peticionDestinos(`origin=VLC&month=${mes}`), ENV, CTX);
+      assert.equal(resp.status, 200, `mes ${mes}`);
+    }
+  } finally {
+    red.restaurar();
+  }
+});
+
+test('/destinos rechaza un origen que no es un código IATA sin llamar a Travelpayouts', async () => {
+  const red = conCacheYRedFalsas();
+  try {
+    for (const origen of ['MADRID', 'X1Y', 'SD', '%20SDR']) {
+      const resp = await worker.fetch(peticionDestinos(`origin=${origen}&month=${mesDesde(0)}`), ENV, CTX);
+      assert.equal(resp.status, 400, `origen ${origen}`);
+    }
+    assert.equal(red.llamadas.length, 0);
+  } finally {
+    red.restaurar();
+  }
+});
+
+test('/destinos rechaza meses fuera de la ventana del explorador sin llamar a Travelpayouts', async () => {
+  const red = conCacheYRedFalsas();
+  try {
+    for (const mes of [mesDesde(-3), mesDesde(12), '2099-01', '2026-13']) {
+      const resp = await worker.fetch(peticionDestinos(`origin=SDR&month=${mes}`), ENV, CTX);
+      assert.equal(resp.status, 400, `mes ${mes}`);
+    }
+    assert.equal(red.llamadas.length, 0);
+  } finally {
+    red.restaurar();
+  }
+});
+
+test('el CORS solo autoriza a la web propia, no a cualquier origen', async () => {
+  const red = conCacheYRedFalsas();
+  try {
+    const propia = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`), ENV, CTX);
+    assert.equal(propia.headers.get('Access-Control-Allow-Origin'), 'https://inteligenciaconia.com');
+
+    const www = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`, 'https://www.inteligenciaconia.com'), ENV, CTX);
+    assert.equal(www.headers.get('Access-Control-Allow-Origin'), 'https://www.inteligenciaconia.com');
+
+    const ajena = await worker.fetch(peticionDestinos(`origin=SDR&month=${mesDesde(0)}`, 'https://ajena.example'), ENV, CTX);
+    assert.notEqual(ajena.headers.get('Access-Control-Allow-Origin'), '*');
+    assert.notEqual(ajena.headers.get('Access-Control-Allow-Origin'), 'https://ajena.example');
+  } finally {
+    red.restaurar();
+  }
+});

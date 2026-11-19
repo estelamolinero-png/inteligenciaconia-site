@@ -234,6 +234,16 @@
       : '<a href="https://klook.tpm.lv/MZNh2wuk" target="_blank" rel="noopener">🎟️ Planes y entradas</a>';
   }
 
+  // Lo que redacta la IA (ciudad, motivo, plan, consejo) se trata como texto:
+  // el modelo repite lo que escribe el visitante y no debe acabar como HTML.
+  function esc(valor) {
+    return String(valor ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   async function organizar() {
     const peticion = texto.value.trim();
     if (peticion.length < 5) {
@@ -262,7 +272,7 @@
         const cabecera = document.createElement('div');
         cabecera.className = `plan-cabecera destino-tarjeta ${IC.gradiente(r.codigo)}`;
         cabecera.style.minHeight = 'auto';
-        cabecera.innerHTML = `<h3>${r.ciudad} <small style="opacity:0.8;font-size:0.8rem;">${r.codigo}</small></h3><span class="precio-plan">${Math.round(r.precio)} € <small style="font-size:0.75rem;font-weight:400;">ida y vuelta</small></span>`;
+        cabecera.innerHTML = `<h3>${esc(r.ciudad)} <small style="opacity:0.8;font-size:0.8rem;">${r.codigo}</small></h3><span class="precio-plan">${Math.round(r.precio)} € <small style="font-size:0.75rem;font-weight:400;">ida y vuelta</small></span>`;
         tarjeta.appendChild(cabecera);
 
         const cuerpo = document.createElement('div');
@@ -271,8 +281,8 @@
         const compararHtml = enlaces.map((e) => `<a href="${e.url}" target="_blank" rel="noopener nofollow">${e.nombre}</a>`).join(' · ');
         cuerpo.innerHTML = `
           <p class="plan-fechas">Ida ${r.fecha_ida} · Vuelta ${r.fecha_vuelta}</p>
-          <p>${r.motivo}</p>
-          <ul>${(r.plan || []).map((p) => `<li>${p}</li>`).join('')}</ul>
+          <p>${esc(r.motivo)}</p>
+          <ul>${(r.plan || []).map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
           <div class="plan-acciones">
             <a class="boton boton-primario" href="${IC.deepLink(origen, r.codigo, r.fecha_ida, r.fecha_vuelta)}" target="_blank" rel="noopener">Reservar vuelo →</a>
             ${enlaceAfiliado('coche')} ${enlaceAfiliado('planes')}
@@ -284,7 +294,7 @@
       }
 
       if (datos.consejo) {
-        consejoDiv.innerHTML = `<div class="tarjeta" style="margin-top:0.5rem;"><span class="icono">💡</span><p style="margin:0.4rem 0 0;">${datos.consejo}</p></div>`;
+        consejoDiv.innerHTML = `<div class="tarjeta" style="margin-top:0.5rem;"><span class="icono">💡</span><p style="margin:0.4rem 0 0;">${esc(datos.consejo)}</p></div>`;
       }
       if (!(datos.recomendaciones || []).length) {
         estado.textContent = 'La IA no ha encontrado nada que encaje. Prueba con otro mes u otra descripción.';
